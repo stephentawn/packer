@@ -1,4 +1,4 @@
-//go:generate struct-markdown
+//go:generate struct-markdown Config
 
 package lxc
 
