@@ -20,9 +20,10 @@ type FlatVaultAWSEngineOptions struct {
 // Where the contents a fields with a `mapstructure:,squash` tag are bubbled up.
 func (*VaultAWSEngineOptions) FlatMapstructure() interface{} { return new(FlatVaultAWSEngineOptions) }
 
-// HCL2Spec returns the hcldec.Spec of a FlatVaultAWSEngineOptions.
-// This spec is used by HCL to read the fields of FlatVaultAWSEngineOptions.
-func (*FlatVaultAWSEngineOptions) HCL2Spec() map[string]hcldec.Spec {
+// HCL2Spec returns the hcl spec of a VaultAWSEngineOptions.
+// This spec is used by HCL to read the fields of VaultAWSEngineOptions.
+// The decoded values from this spec will then be applied to a FlatVaultAWSEngineOptions.
+func (*VaultAWSEngineOptions) HCL2Spec() map[string]hcldec.Spec {
 	s := map[string]hcldec.Spec{
 		"name":        &hcldec.AttrSpec{Name: "name", Type: cty.String, Required: false},
 		"role_arn":    &hcldec.AttrSpec{Name: "role_arn", Type: cty.String, Required: false},

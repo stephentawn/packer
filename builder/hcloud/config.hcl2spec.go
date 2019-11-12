@@ -63,7 +63,7 @@ type FlatConfig struct {
 	Location                  *string           `mapstructure:"location" cty:"location"`
 	ServerType                *string           `mapstructure:"server_type" cty:"server_type"`
 	Image                     *string           `mapstructure:"image" cty:"image"`
-	ImageFilter               *FlatimageFilter  `mapstructure:"image_filter" cty:"image_filter"`
+	ImageFilter               *imageFilter      `mapstructure:"image_filter" cty:"image_filter"`
 	SnapshotName              *string           `mapstructure:"snapshot_name" cty:"snapshot_name"`
 	SnapshotLabels            map[string]string `mapstructure:"snapshot_labels" cty:"snapshot_labels"`
 	UserData                  *string           `mapstructure:"user_data" cty:"user_data"`
@@ -77,9 +77,10 @@ type FlatConfig struct {
 // Where the contents a fields with a `mapstructure:,squash` tag are bubbled up.
 func (*Config) FlatMapstructure() interface{} { return new(FlatConfig) }
 
-// HCL2Spec returns the hcldec.Spec of a FlatConfig.
-// This spec is used by HCL to read the fields of FlatConfig.
-func (*FlatConfig) HCL2Spec() map[string]hcldec.Spec {
+// HCL2Spec returns the hcl spec of a Config.
+// This spec is used by HCL to read the fields of Config.
+// The decoded values from this spec will then be applied to a FlatConfig.
+func (*Config) HCL2Spec() map[string]hcldec.Spec {
 	s := map[string]hcldec.Spec{
 		"packer_build_name":            &hcldec.AttrSpec{Name: "packer_build_name", Type: cty.String, Required: false},
 		"packer_builder_type":          &hcldec.AttrSpec{Name: "packer_builder_type", Type: cty.String, Required: false},
@@ -135,7 +136,7 @@ func (*FlatConfig) HCL2Spec() map[string]hcldec.Spec {
 		"location":                     &hcldec.AttrSpec{Name: "location", Type: cty.String, Required: false},
 		"server_type":                  &hcldec.AttrSpec{Name: "server_type", Type: cty.String, Required: false},
 		"image":                        &hcldec.AttrSpec{Name: "image", Type: cty.String, Required: false},
-		"image_filter":                 &hcldec.BlockSpec{TypeName: "image_filter", Nested: hcldec.ObjectSpec((*FlatimageFilter)(nil).HCL2Spec())},
+		"image_filter":                 &hcldec.BlockSpec{TypeName: "image_filter", Nested: hcldec.ObjectSpec((*imageFilter)(nil).HCL2Spec())},
 		"snapshot_name":                &hcldec.AttrSpec{Name: "snapshot_name", Type: cty.String, Required: false},
 		"snapshot_labels":              &hcldec.BlockAttrsSpec{TypeName: "snapshot_labels", ElementType: cty.String, Required: false},
 		"user_data":                    &hcldec.AttrSpec{Name: "user_data", Type: cty.String, Required: false},
@@ -158,9 +159,10 @@ type FlatimageFilter struct {
 // Where the contents a fields with a `mapstructure:,squash` tag are bubbled up.
 func (*imageFilter) FlatMapstructure() interface{} { return new(FlatimageFilter) }
 
-// HCL2Spec returns the hcldec.Spec of a FlatimageFilter.
-// This spec is used by HCL to read the fields of FlatimageFilter.
-func (*FlatimageFilter) HCL2Spec() map[string]hcldec.Spec {
+// HCL2Spec returns the hcl spec of a imageFilter.
+// This spec is used by HCL to read the fields of imageFilter.
+// The decoded values from this spec will then be applied to a FlatimageFilter.
+func (*imageFilter) HCL2Spec() map[string]hcldec.Spec {
 	s := map[string]hcldec.Spec{
 		"with_selector": &hcldec.AttrSpec{Name: "with_selector", Type: cty.List(cty.String), Required: false},
 		"most_recent":   &hcldec.AttrSpec{Name: "most_recent", Type: cty.Bool, Required: false},

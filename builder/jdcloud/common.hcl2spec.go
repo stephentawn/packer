@@ -76,9 +76,10 @@ type FlatConfig struct {
 // Where the contents a fields with a `mapstructure:,squash` tag are bubbled up.
 func (*Config) FlatMapstructure() interface{} { return new(FlatConfig) }
 
-// HCL2Spec returns the hcldec.Spec of a FlatConfig.
-// This spec is used by HCL to read the fields of FlatConfig.
-func (*FlatConfig) HCL2Spec() map[string]hcldec.Spec {
+// HCL2Spec returns the hcl spec of a Config.
+// This spec is used by HCL to read the fields of Config.
+// The decoded values from this spec will then be applied to a FlatConfig.
+func (*Config) HCL2Spec() map[string]hcldec.Spec {
 	s := map[string]hcldec.Spec{
 		"access_key":                   &hcldec.AttrSpec{Name: "access_key", Type: cty.String, Required: false},
 		"secret_key":                   &hcldec.AttrSpec{Name: "secret_key", Type: cty.String, Required: false},

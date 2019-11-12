@@ -76,8 +76,8 @@ type FlatConfig struct {
 	CPUType                   *string           `mapstructure:"cpu_type" cty:"cpu_type"`
 	Sockets                   *int              `mapstructure:"sockets" cty:"sockets"`
 	OS                        *string           `mapstructure:"os" cty:"os"`
-	NICs                      []FlatnicConfig   `mapstructure:"network_adapters" cty:"network_adapters"`
-	Disks                     []FlatdiskConfig  `mapstructure:"disks" cty:"disks"`
+	NICs                      []nicConfig       `mapstructure:"network_adapters" cty:"network_adapters"`
+	Disks                     []diskConfig      `mapstructure:"disks" cty:"disks"`
 	ISOFile                   *string           `mapstructure:"iso_file" cty:"iso_file"`
 	Agent                     *bool             `mapstructure:"qemu_agent" cty:"qemu_agent"`
 	SCSIController            *string           `mapstructure:"scsi_controller" cty:"scsi_controller"`
@@ -91,9 +91,10 @@ type FlatConfig struct {
 // Where the contents a fields with a `mapstructure:,squash` tag are bubbled up.
 func (*Config) FlatMapstructure() interface{} { return new(FlatConfig) }
 
-// HCL2Spec returns the hcldec.Spec of a FlatConfig.
-// This spec is used by HCL to read the fields of FlatConfig.
-func (*FlatConfig) HCL2Spec() map[string]hcldec.Spec {
+// HCL2Spec returns the hcl spec of a Config.
+// This spec is used by HCL to read the fields of Config.
+// The decoded values from this spec will then be applied to a FlatConfig.
+func (*Config) HCL2Spec() map[string]hcldec.Spec {
 	s := map[string]hcldec.Spec{
 		"packer_build_name":            &hcldec.AttrSpec{Name: "packer_build_name", Type: cty.String, Required: false},
 		"packer_builder_type":          &hcldec.AttrSpec{Name: "packer_builder_type", Type: cty.String, Required: false},
@@ -162,8 +163,8 @@ func (*FlatConfig) HCL2Spec() map[string]hcldec.Spec {
 		"cpu_type":                     &hcldec.AttrSpec{Name: "cpu_type", Type: cty.String, Required: false},
 		"sockets":                      &hcldec.AttrSpec{Name: "sockets", Type: cty.Number, Required: false},
 		"os":                           &hcldec.AttrSpec{Name: "os", Type: cty.String, Required: false},
-		"network_adapters":             &hcldec.BlockListSpec{TypeName: "network_adapters", Nested: &hcldec.BlockSpec{TypeName: "network_adapters", Nested: hcldec.ObjectSpec((*FlatnicConfig)(nil).HCL2Spec())}},
-		"disks":                        &hcldec.BlockListSpec{TypeName: "disks", Nested: &hcldec.BlockSpec{TypeName: "disks", Nested: hcldec.ObjectSpec((*FlatdiskConfig)(nil).HCL2Spec())}},
+		"network_adapters":             &hcldec.BlockListSpec{TypeName: "network_adapters", Nested: &hcldec.BlockSpec{TypeName: "network_adapters", Nested: hcldec.ObjectSpec((*nicConfig)(nil).HCL2Spec())}},
+		"disks":                        &hcldec.BlockListSpec{TypeName: "disks", Nested: &hcldec.BlockSpec{TypeName: "disks", Nested: hcldec.ObjectSpec((*diskConfig)(nil).HCL2Spec())}},
 		"iso_file":                     &hcldec.AttrSpec{Name: "iso_file", Type: cty.String, Required: false},
 		"qemu_agent":                   &hcldec.AttrSpec{Name: "qemu_agent", Type: cty.Bool, Required: false},
 		"scsi_controller":              &hcldec.AttrSpec{Name: "scsi_controller", Type: cty.String, Required: false},
@@ -190,9 +191,10 @@ type FlatdiskConfig struct {
 // Where the contents a fields with a `mapstructure:,squash` tag are bubbled up.
 func (*diskConfig) FlatMapstructure() interface{} { return new(FlatdiskConfig) }
 
-// HCL2Spec returns the hcldec.Spec of a FlatdiskConfig.
-// This spec is used by HCL to read the fields of FlatdiskConfig.
-func (*FlatdiskConfig) HCL2Spec() map[string]hcldec.Spec {
+// HCL2Spec returns the hcl spec of a diskConfig.
+// This spec is used by HCL to read the fields of diskConfig.
+// The decoded values from this spec will then be applied to a FlatdiskConfig.
+func (*diskConfig) HCL2Spec() map[string]hcldec.Spec {
 	s := map[string]hcldec.Spec{
 		"type":              &hcldec.AttrSpec{Name: "type", Type: cty.String, Required: false},
 		"storage_pool":      &hcldec.AttrSpec{Name: "storage_pool", Type: cty.String, Required: false},
@@ -218,9 +220,10 @@ type FlatnicConfig struct {
 // Where the contents a fields with a `mapstructure:,squash` tag are bubbled up.
 func (*nicConfig) FlatMapstructure() interface{} { return new(FlatnicConfig) }
 
-// HCL2Spec returns the hcldec.Spec of a FlatnicConfig.
-// This spec is used by HCL to read the fields of FlatnicConfig.
-func (*FlatnicConfig) HCL2Spec() map[string]hcldec.Spec {
+// HCL2Spec returns the hcl spec of a nicConfig.
+// This spec is used by HCL to read the fields of nicConfig.
+// The decoded values from this spec will then be applied to a FlatnicConfig.
+func (*nicConfig) HCL2Spec() map[string]hcldec.Spec {
 	s := map[string]hcldec.Spec{
 		"model":       &hcldec.AttrSpec{Name: "model", Type: cty.String, Required: false},
 		"mac_address": &hcldec.AttrSpec{Name: "mac_address", Type: cty.String, Required: false},

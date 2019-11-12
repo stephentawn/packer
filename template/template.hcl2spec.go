@@ -23,9 +23,10 @@ type FlatProvisioner struct {
 // Where the contents a fields with a `mapstructure:,squash` tag are bubbled up.
 func (*Provisioner) FlatMapstructure() interface{} { return new(FlatProvisioner) }
 
-// HCL2Spec returns the hcldec.Spec of a FlatProvisioner.
-// This spec is used by HCL to read the fields of FlatProvisioner.
-func (*FlatProvisioner) HCL2Spec() map[string]hcldec.Spec {
+// HCL2Spec returns the hcl spec of a Provisioner.
+// This spec is used by HCL to read the fields of Provisioner.
+// The decoded values from this spec will then be applied to a FlatProvisioner.
+func (*Provisioner) HCL2Spec() map[string]hcldec.Spec {
 	s := map[string]hcldec.Spec{
 		"only":         &hcldec.AttrSpec{Name: "only", Type: cty.List(cty.String), Required: false},
 		"except":       &hcldec.AttrSpec{Name: "except", Type: cty.List(cty.String), Required: false},

@@ -24,9 +24,10 @@ type FlatMachineImageFilter struct {
 // Where the contents a fields with a `mapstructure:,squash` tag are bubbled up.
 func (*MachineImageFilter) FlatMapstructure() interface{} { return new(FlatMachineImageFilter) }
 
-// HCL2Spec returns the hcldec.Spec of a FlatMachineImageFilter.
-// This spec is used by HCL to read the fields of FlatMachineImageFilter.
-func (*FlatMachineImageFilter) HCL2Spec() map[string]hcldec.Spec {
+// HCL2Spec returns the hcl spec of a MachineImageFilter.
+// This spec is used by HCL to read the fields of MachineImageFilter.
+// The decoded values from this spec will then be applied to a FlatMachineImageFilter.
+func (*MachineImageFilter) HCL2Spec() map[string]hcldec.Spec {
 	s := map[string]hcldec.Spec{
 		"most_recent": &hcldec.AttrSpec{Name: "most_recent", Type: cty.Bool, Required: false},
 		"name":        &hcldec.AttrSpec{Name: "name", Type: cty.String, Required: false},

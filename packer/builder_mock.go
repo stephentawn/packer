@@ -1,3 +1,5 @@
+//go:generate mapstructure-to-hcl2 -type MockBuilder,MockCommunicator,RemoteCmd
+
 package packer
 
 import (

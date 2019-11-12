@@ -37,6 +37,10 @@ type MockCommunicator struct {
 	DownloadData   string
 }
 
+func (c *MockCommunicator) Configure(...interface{}) ([]string, error) {
+	panic("not implemented")
+}
+
 func (c *MockCommunicator) Start(ctx context.Context, rc *RemoteCmd) error {
 	c.StartCalled = true
 	c.StartCmd = rc
