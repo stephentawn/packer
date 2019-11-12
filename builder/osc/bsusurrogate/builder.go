@@ -1,3 +1,5 @@
+//go:generate mapstructure-to-hcl2 -type Config,RootBlockDevice
+
 // Package bsusurrogate contains a packer.Builder implementation that
 // builds a new EBS-backed OMI using an ephemeral instance.
 package bsusurrogate
