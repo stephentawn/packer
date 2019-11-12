@@ -6,11 +6,15 @@ import (
 	"log"
 	"sync"
 	"time"
+
+	"github.com/hashicorp/hcl/v2/hcldec"
 )
 
 // A provisioner is responsible for installing and configuring software
 // on a machine prior to building the actual image.
 type Provisioner interface {
+	HCL2Speccer
+
 	// Prepare is called with a set of configurations to setup the
 	// internal state of the provisioner. The multiple configurations
 	// should be merged in some sane way.
@@ -71,6 +75,8 @@ type PausedProvisioner struct {
 	Provisioner Provisioner
 }
 
+func (p *PausedProvisioner) HCL2Spec() map[string]hcldec.Spec { return p.HCL2Spec() }
+func (p *PausedProvisioner) FlatMapstructure() interface{}    { return p.FlatMapstructure() }
 func (p *PausedProvisioner) Prepare(raws ...interface{}) error {
 	return p.Provisioner.Prepare(raws...)
 }
@@ -98,6 +104,8 @@ type DebuggedProvisioner struct {
 	lock     sync.Mutex
 }
 
+func (p *DebuggedProvisioner) HCL2Spec() map[string]hcldec.Spec { return p.HCL2Spec() }
+func (p *DebuggedProvisioner) FlatMapstructure() interface{}    { return p.FlatMapstructure() }
 func (p *DebuggedProvisioner) Prepare(raws ...interface{}) error {
 	return p.Provisioner.Prepare(raws...)
 }

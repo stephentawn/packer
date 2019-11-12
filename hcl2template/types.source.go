@@ -4,6 +4,7 @@ import (
 	"fmt"
 
 	"github.com/hashicorp/hcl/v2"
+	"github.com/hashicorp/packer/packer"
 )
 
 // A source field in an HCL file will load into the Source type.
@@ -14,12 +15,12 @@ type Source struct {
 	// Given name; if any
 	Name string
 
-	Cfg interface{}
+	Builder packer.Builder
 
 	HCL2Ref HCL2Ref
 }
 
-func (p *Parser) decodeSource(block *hcl.Block, sourceSpecs pluginLoader) (*Source, hcl.Diagnostics) {
+func (p *Parser) decodeSource(block *hcl.Block) (*Source, hcl.Diagnostics) {
 	source := &Source{
 		Type: block.Labels[0],
 		Name: block.Labels[1],
@@ -28,7 +29,7 @@ func (p *Parser) decodeSource(block *hcl.Block, sourceSpecs pluginLoader) (*Sour
 
 	var diags hcl.Diagnostics
 
-	sourceSpec, err := sourceSpecs.Get(source.Type)
+	builder, err := p.BuilderSchemas(source.Type)
 	if err != nil {
 		diags = append(diags, &hcl.Diagnostic{
 			Summary: "Failed to load " + sourceLabel + " type",
@@ -38,9 +39,13 @@ func (p *Parser) decodeSource(block *hcl.Block, sourceSpecs pluginLoader) (*Sour
 		return source, diags
 	}
 
-	flatSource, moreDiags := decodeDecodable(block, nil, sourceSpec)
+	decoded, moreDiags := decodeHCL2Spec(block, nil, builder)
 	diags = append(diags, moreDiags...)
-	source.Cfg = flatSource
+	warning, err := builder.Prepare(decoded)
+	moreDiags = warningErrorsToDiags(block, warning, err)
+	diags = append(diags, moreDiags...)
+
+	source.Builder = builder
 
 	return source, diags
 }

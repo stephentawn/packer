@@ -38,7 +38,7 @@ func getBasicParser() *Parser {
 			"ssh":   &communicator.SSH{},
 			"winrm": &communicator.WinRM{},
 		}),
-		SourceSchemas: mapOfDecodable(map[string]Decodable{
+		BuilderSchemas: mapOfDecodable(map[string]Decodable{
 			"amazon-ebs":     &amazonebs.Config{},
 			"virtualbox-iso": &iso.Config{},
 		}),

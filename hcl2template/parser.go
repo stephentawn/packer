@@ -8,6 +8,7 @@ import (
 
 	"github.com/hashicorp/hcl/v2"
 	"github.com/hashicorp/hcl/v2/hclparse"
+	"github.com/hashicorp/packer/packer"
 )
 
 const (
@@ -29,17 +30,16 @@ var configSchema = &hcl.BodySchema{
 type Parser struct {
 	*hclparse.Parser
 
-	SourceSchemas pluginLoader
+	BuilderSchemas      packer.BuilderFunc
+	CommunicatorSchemas packer.CommunicatorFunc
 
-	CommunicatorSchemas pluginLoader
+	ProvisionersSchemas provisionerLoader
 
-	ProvisionersSchemas pluginLoader
-
-	PostProvisionersSchemas pluginLoader
+	PostProvisionersSchemas provisionerLoader
 }
 
-type pluginLoader interface {
-	Get(name string) (Decodable, error)
+type provisionerLoader interface {
+	Get(name string) (packer.Provisioner, error)
 	List() (names []string)
 }
 
@@ -124,7 +124,7 @@ func (p *Parser) ParseFile(f *hcl.File, cfg *PackerConfig) hcl.Diagnostics {
 				cfg.Sources = map[SourceRef]*Source{}
 			}
 
-			source, moreDiags := p.decodeSource(block, p.SourceSchemas)
+			source, moreDiags := p.decodeSource(block, p.BuilderSchemas)
 			diags = append(diags, moreDiags...)
 
 			ref := source.Ref()
