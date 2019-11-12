@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"time"
 
+	"github.com/hashicorp/hcl2/hcldec"
 	vmwcommon "github.com/hashicorp/packer/builder/vmware/common"
 	"github.com/hashicorp/packer/common"
 	"github.com/hashicorp/packer/helper/communicator"
@@ -18,7 +19,10 @@ type Builder struct {
 	runner multistep.Runner
 }
 
-// Prepare processes the build configuration parameters.
+func (b *Builder) ConfigSpec() hcldec.ObjectSpec { return b.config.HCL2Spec() }
+
+func (b *Builder) FlatConfig() interface{} { return b.config.FlatMapstructure() }
+
 func (b *Builder) Prepare(raws ...interface{}) ([]string, error) {
 	c, warnings, errs := NewConfig(raws...)
 	if errs != nil {

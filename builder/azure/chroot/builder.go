@@ -14,6 +14,7 @@ import (
 	"runtime"
 	"strings"
 
+	"github.com/hashicorp/hcl/v2/hcldec"
 	azcommon "github.com/hashicorp/packer/builder/azure/common"
 	"github.com/hashicorp/packer/builder/azure/common/client"
 	"github.com/hashicorp/packer/common"
@@ -115,6 +116,10 @@ type Builder struct {
 	config Config
 	runner multistep.Runner
 }
+
+func (b *Builder) ConfigSpec() hcldec.ObjectSpec { return b.config.HCL2Spec() }
+
+func (b *Builder) FlatConfig() interface{} { return b.config.FlatMapstructure() }
 
 func (b *Builder) Prepare(raws ...interface{}) ([]string, error) {
 	b.config.ctx.Funcs = azcommon.TemplateFuncs

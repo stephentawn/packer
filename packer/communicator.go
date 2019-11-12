@@ -50,8 +50,6 @@ type RemoteCmd struct {
 // Communicators must be safe for concurrency, meaning multiple calls to
 // Start or any other method may be called at the same time.
 type Communicator interface {
-	HCL2Speccer
-
 	Configure(...interface{}) ([]string, error)
 
 	// Start takes a RemoteCmd and starts it. The RemoteCmd must not be

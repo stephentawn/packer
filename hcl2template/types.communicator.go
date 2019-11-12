@@ -46,7 +46,8 @@ func (p *Parser) decodeCommunicatorConfig(block *hcl.Block) (*Communicator, hcl.
 		return output, diags
 	}
 
-	decoded, moreDiags := decodeHCL2Spec(block, nil, communicator)
+	//TODO(azr): decode communicators ? Or roll this back
+	decoded, moreDiags := decodeHCL2Spec(block, nil, nil)
 	diags = append(diags, moreDiags...)
 
 	warnings, err := communicator.Configure(decoded)

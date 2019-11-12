@@ -5,6 +5,8 @@ package packer
 import (
 	"context"
 	"errors"
+
+	"github.com/hashicorp/hcl/v2/hcldec"
 )
 
 // MockBuilder is an implementation of Builder that can be used for tests.
@@ -24,6 +26,10 @@ type MockBuilder struct {
 	CancelCalled  bool
 	RunFn         func(ctx context.Context)
 }
+
+func (tb *MockBuilder) ConfigSpec() hcldec.ObjectSpec { return tb.HCL2Spec() }
+
+func (tb *MockBuilder) FlatConfig() interface{} { return tb.FlatMapstructure() }
 
 func (tb *MockBuilder) Prepare(config ...interface{}) ([]string, error) {
 	tb.PrepareCalled = true

@@ -7,10 +7,9 @@ import (
 )
 
 type Decodable interface {
-	HCL2Spec() map[string]hcldec.Spec
+	ConfigSpec() hcldec.ObjectSpec
 }
 
 func decodeHCL2Spec(block *hcl.Block, ctx *hcl.EvalContext, dec Decodable) (cty.Value, hcl.Diagnostics) {
-	spec := dec.HCL2Spec()
-	return hcldec.Decode(block.Body, hcldec.ObjectSpec(spec), ctx)
+	return hcldec.Decode(block.Body, dec.ConfigSpec(), ctx)
 }

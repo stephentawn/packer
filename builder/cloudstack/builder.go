@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 
+	"github.com/hashicorp/hcl2/hcldec"
 	"github.com/hashicorp/packer/common"
 	"github.com/hashicorp/packer/helper/communicator"
 	"github.com/hashicorp/packer/helper/multistep"
@@ -20,7 +21,10 @@ type Builder struct {
 	ui     packer.Ui
 }
 
-// Prepare implements the packer.Builder interface.
+func (b *Builder) ConfigSpec() hcldec.ObjectSpec { return b.config.HCL2Spec() }
+
+func (b *Builder) FlatConfig() interface{} { return b.config.FlatMapstructure() }
+
 func (b *Builder) Prepare(raws ...interface{}) ([]string, error) {
 	config, errs := NewConfig(raws...)
 	if errs != nil {

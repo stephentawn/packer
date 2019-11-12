@@ -1,3 +1,5 @@
+//go:generate mapstructure-to-hcl2 -type Communicator
+
 package winrm
 
 import (
@@ -19,9 +21,13 @@ import (
 
 // Communicator represents the WinRM communicator
 type Communicator struct {
-	config   *Config
+	config   *Config `mapstructure:",squash"`
 	client   *winrm.Client
 	endpoint *winrm.Endpoint
+}
+
+func (c *Communicator) Configure(...interface{}) ([]string, error) {
+	panic("no implemented")
 }
 
 // New creates a new communicator implementation over WinRM.

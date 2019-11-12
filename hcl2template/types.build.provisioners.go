@@ -58,7 +58,7 @@ func (p *Parser) decodeProvisionerGroup(block *hcl.Block, provisionerSpecs provi
 		}
 		flatProvisinerCfg, moreDiags := decodeHCL2Spec(block, nil, provisioner)
 		diags = append(diags, moreDiags...)
-		err := provisioner.Prepare(flatProvisinerCfg)
+		err = provisioner.Prepare(flatProvisinerCfg)
 		if err != nil {
 			diags = append(diags, &hcl.Diagnostic{
 				Severity: hcl.DiagError,

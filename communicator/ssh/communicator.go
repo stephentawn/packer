@@ -86,6 +86,10 @@ type Config struct {
 	Tunnels []TunnelSpec
 }
 
+func (c *comm) Configure(...interface{}) ([]string, error) {
+	panic("not implemented")
+}
+
 // Creates a new packer.Communicator implementation over SSH. This takes
 // an already existing TCP connection and SSH configuration.
 func New(address string, config *Config) (result *comm, err error) {

@@ -27,6 +27,7 @@ import (
 
 	"golang.org/x/crypto/ssh"
 
+	"github.com/hashicorp/hcl/v2/hcldec"
 	"github.com/hashicorp/packer/common"
 	"github.com/hashicorp/packer/common/adapter"
 	"github.com/hashicorp/packer/helper/config"
@@ -67,6 +68,10 @@ type Provisioner struct {
 	inspecVersion    string
 	inspecMajVersion uint
 }
+
+func (p *Provisioner) ConfigSpec() hcldec.ObjectSpec { return p.config.HCL2Spec() }
+
+func (p *Provisioner) FlatConfig() interface{} { return p.config.FlatMapstructure() }
 
 func (p *Provisioner) Prepare(raws ...interface{}) error {
 	p.done = make(chan struct{})

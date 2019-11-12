@@ -4,21 +4,17 @@ import (
 	"fmt"
 	"testing"
 
-	awscommon "github.com/hashicorp/packer/builder/amazon/common"
+	"github.com/hashicorp/packer/packer"
 
 	"github.com/hashicorp/hcl/v2"
 	"github.com/hashicorp/hcl/v2/hclparse"
 	"github.com/zclconf/go-cty/cty"
-
-	"github.com/hashicorp/packer/helper/communicator"
 
 	amazonebs "github.com/hashicorp/packer/builder/amazon/ebs"
 	"github.com/hashicorp/packer/builder/virtualbox/iso"
 
 	"github.com/hashicorp/packer/provisioner/file"
 	"github.com/hashicorp/packer/provisioner/shell"
-
-	amazon_import "github.com/hashicorp/packer/post-processor/amazon-import"
 
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
@@ -27,36 +23,47 @@ import (
 func getBasicParser() *Parser {
 	return &Parser{
 		Parser: hclparse.NewParser(),
-		ProvisionersSchemas: mapOfDecodable(map[string]Decodable{
-			"shell": &shell.Config{},
-			"file":  &file.Config{},
+		ProvisionersSchemas: mapOfProvisioner(map[string]packer.Provisioner{
+			"shell": &shell.Provisioner{},
+			"file":  &file.Provisioner{},
 		}),
-		PostProvisionersSchemas: mapOfDecodable(map[string]Decodable{
-			"amazon-import": &amazon_import.Config{},
-		}),
-		CommunicatorSchemas: mapOfDecodable(map[string]Decodable{
-			"ssh":   &communicator.SSH{},
-			"winrm": &communicator.WinRM{},
-		}),
-		BuilderSchemas: mapOfDecodable(map[string]Decodable{
-			"amazon-ebs":     &amazonebs.Config{},
-			"virtualbox-iso": &iso.Config{},
-		}),
+		// PostProvisionersSchemas: mapOfProvisioner(map[string]packer.PostProcessor{
+		// 	"amazon-import": &amazon_import.PostProcessor{},
+		// }),
+		// CommunicatorSchemas: mapOfDecodable(map[string]Decodable{
+		// 	"ssh":   &communicator.SSH{},
+		// 	"winrm": &communicator.WinRM{},
+		// }).Get,
+		BuilderSchemas: mapOfBuilder(map[string]packer.Builder{
+			"amazon-ebs":     &amazonebs.Builder{},
+			"virtualbox-iso": &iso.Builder{},
+		}).Get,
 	}
 }
 
-type mapOfDecodable map[string]Decodable
+type mapOfBuilder map[string]packer.Builder
 
-func (mod mapOfDecodable) Get(decodable string) (Decodable, error) {
-	d, found := mod[decodable]
+func (mob mapOfBuilder) Get(builder string) (packer.Builder, error) {
+	d, found := mob[builder]
 	var err error
 	if !found {
-		err = fmt.Errorf("Unknown entry %s", decodable)
+		err = fmt.Errorf("Unknown entry %s", builder)
 	}
 	return d, err
 }
 
-func (mod mapOfDecodable) List() []string {
+type mapOfProvisioner map[string]packer.Provisioner
+
+func (mop mapOfProvisioner) Get(provisioner string) (packer.Provisioner, error) {
+	p, found := mop[provisioner]
+	var err error
+	if !found {
+		err = fmt.Errorf("Unknown provisioner %s", provisioner)
+	}
+	return p, err
+}
+
+func (mod mapOfProvisioner) List() []string {
 	res := []string{}
 	for k := range mod {
 		res = append(res, k)
@@ -91,18 +98,20 @@ func TestParser_ParseFile(t *testing.T) {
 						Type: "virtualbox-iso",
 						Name: "ubuntu-1204",
 					}: {
-						Type: "virtualbox-iso",
-						Name: "ubuntu-1204",
-						Cfg: &iso.FlatConfig{
-							HTTPDir:         strPtr("xxx"),
-							ISOChecksum:     strPtr("769474248a3897f4865817446f9a4a53"),
-							ISOChecksumType: strPtr("md5"),
-							RawSingleISOUrl: strPtr("http://releases.ubuntu.com/12.04/ubuntu-12.04.5-server-amd64.iso"),
-							BootCommand:     []string{"..."},
-							ShutdownCommand: strPtr("echo 'vagrant' | sudo -S shutdown -P now"),
-							BootWait:        strPtr("10s"),
-							VBoxManage:      [][]string{},
-							VBoxManagePost:  [][]string{},
+						Type:    "virtualbox-iso",
+						Name:    "ubuntu-1204",
+						Builder: &iso.Builder{
+							// iso.Config{
+							// 	HTTPDir:         "xxx",
+							// 	ISOChecksum:     "769474248a3897f4865817446f9a4a53",
+							// 	ISOChecksumType: "md5",
+							// 	RawSingleISOUrl: "http://releases.ubuntu.com/12.04/ubuntu-12.04.5-server-amd64.iso",
+							// 	BootCommand:     []string{"..."},
+							// 	ShutdownCommand: "echo 'vagrant' | sudo -S shutdown -P now",
+							// 	BootWait:        "10s",
+							// 	VBoxManage:      [][]string{},
+							// 	VBoxManagePost:  [][]string{},
+							// },
 						},
 					},
 					SourceRef{
@@ -111,21 +120,21 @@ func TestParser_ParseFile(t *testing.T) {
 					}: {
 						Type: "amazon-ebs",
 						Name: "ubuntu-1604",
-						Cfg: &amazonebs.FlatConfig{
-							RawRegion:            strPtr("eu-west-3"),
-							AMIEncryptBootVolume: boolPtr(true),
-							InstanceType:         strPtr("t2.micro"),
-							SourceAmiFilter: &awscommon.FlatAmiFilterOptions{
-								Filters: map[string]string{
-									"name":                "ubuntu/images/*ubuntu-xenial-{16.04}-amd64-server-*",
-									"root-device-type":    "ebs",
-									"virtualization-type": "hvm",
-								},
-								Owners: []string{"099720109477"},
-							},
-							AMIMappings:    []awscommon.FlatBlockDevice{},
-							LaunchMappings: []awscommon.FlatBlockDevice{},
-						},
+						// Cfg: &amazonebs.FlatConfig{
+						// 	RawRegion:            "eu-west-3",
+						// 	AMIEncryptBootVolume: boolPtr(true),
+						// 	InstanceType:         "t2.micro",
+						// 	SourceAmiFilter: &awscommon.FlatAmiFilterOptions{
+						// 		Filters: map[string]string{
+						// 			"name":                "ubuntu/images/*ubuntu-xenial-{16.04}-amd64-server-*",
+						// 			"root-device-type":    "ebs",
+						// 			"virtualization-type": "hvm",
+						// 		},
+						// 		Owners: []string{"099720109477"},
+						// 	},
+						// 	AMIMappings:    []awscommon.FlatBlockDevice{},
+						// 	LaunchMappings: []awscommon.FlatBlockDevice{},
+						// },
 					},
 					SourceRef{
 						Type: "amazon-ebs",
@@ -133,16 +142,16 @@ func TestParser_ParseFile(t *testing.T) {
 					}: {
 						Type: "amazon-ebs",
 						Name: "that-ubuntu-1.0",
-						Cfg: &amazonebs.FlatConfig{
-							RawRegion:            strPtr("eu-west-3"),
-							AMIEncryptBootVolume: boolPtr(true),
-							InstanceType:         strPtr("t2.micro"),
-							SourceAmiFilter: &awscommon.FlatAmiFilterOptions{
-								MostRecent: boolPtr(true),
-							},
-							AMIMappings:    []awscommon.FlatBlockDevice{},
-							LaunchMappings: []awscommon.FlatBlockDevice{},
-						},
+						// Cfg: &amazonebs.FlatConfig{
+						// 	RawRegion:            "eu-west-3",
+						// 	AMIEncryptBootVolume: boolPtr(true),
+						// 	InstanceType:         "t2.micro",
+						// 	SourceAmiFilter: &awscommon.FlatAmiFilterOptions{
+						// 		MostRecent: boolPtr(true),
+						// 	},
+						// 	AMIMappings:    []awscommon.FlatBlockDevice{},
+						// 	LaunchMappings: []awscommon.FlatBlockDevice{},
+						// },
 					},
 				},
 			},
@@ -157,32 +166,32 @@ func TestParser_ParseFile(t *testing.T) {
 				Communicators: map[CommunicatorRef]*Communicator{
 					{Type: "ssh", Name: "vagrant"}: {
 						Type: "ssh", Name: "vagrant",
-						Cfg: &communicator.FlatSSH{
-							SSHUsername:               strPtr("vagrant"),
-							SSHPassword:               strPtr("s3cr4t"),
-							SSHClearAuthorizedKeys:    boolPtr(true),
-							SSHHost:                   strPtr("sssssh.hashicorp.io"),
-							SSHHandshakeAttempts:      intPtr(32),
-							SSHPort:                   intPtr(42),
-							SSHFileTransferMethod:     strPtr("scp"),
-							SSHPrivateKeyFile:         strPtr("file.pem"),
-							SSHPty:                    boolPtr(false),
-							SSHTimeout:                strPtr("5m"),
-							SSHAgentAuth:              boolPtr(false),
-							SSHDisableAgentForwarding: boolPtr(true),
-							SSHBastionHost:            strPtr(""),
-							SSHBastionPort:            intPtr(0),
-							SSHBastionAgentAuth:       boolPtr(true),
-							SSHBastionUsername:        strPtr(""),
-							SSHBastionPassword:        strPtr(""),
-							SSHBastionPrivateKeyFile:  strPtr(""),
-							SSHProxyHost:              strPtr("ninja-potatoes.com"),
-							SSHProxyPort:              intPtr(42),
-							SSHProxyUsername:          strPtr("dark-father"),
-							SSHProxyPassword:          strPtr("pickle-rick"),
-							SSHKeepAliveInterval:      strPtr("10s"),
-							SSHReadWriteTimeout:       strPtr("5m"),
-						},
+						// Cfg: &communicator.FlatSSH{
+						// 	SSHUsername:               "vagrant",
+						// 	SSHPassword:               "s3cr4t",
+						// 	SSHClearAuthorizedKeys:    boolPtr(true),
+						// 	SSHHost:                   "sssssh.hashicorp.io",
+						// 	SSHHandshakeAttempts:      intPtr(32),
+						// 	SSHPort:                   intPtr(42),
+						// 	SSHFileTransferMethod:     "scp",
+						// 	SSHPrivateKeyFile:         "file.pem",
+						// 	SSHPty:                    boolPtr(false),
+						// 	SSHTimeout:                "5m",
+						// 	SSHAgentAuth:              boolPtr(false),
+						// 	SSHDisableAgentForwarding: boolPtr(true),
+						// 	SSHBastionHost:            "",
+						// 	SSHBastionPort:            intPtr(0),
+						// 	SSHBastionAgentAuth:       boolPtr(true),
+						// 	SSHBastionUsername:        "",
+						// 	SSHBastionPassword:        "",
+						// 	SSHBastionPrivateKeyFile:  "",
+						// 	SSHProxyHost:              "ninja-potatoes.com",
+						// 	SSHProxyPort:              intPtr(42),
+						// 	SSHProxyUsername:          "dark-father",
+						// 	SSHProxyPassword:          "pickle-rick",
+						// 	SSHKeepAliveInterval:      "10s",
+						// 	SSHReadWriteTimeout:       "5m",
+						// },
 					},
 				},
 			},
@@ -199,9 +208,9 @@ func TestParser_ParseFile(t *testing.T) {
 					}: {
 						Type: "virtualbox-iso",
 						Name: "ubuntu-1204",
-						Cfg: &iso.FlatConfig{
-							HTTPDir: strPtr("xxx"),
-						},
+						// Cfg: &iso.FlatConfig{
+						// 	HTTPDir: "xxx",
+						// },
 					},
 				},
 			},
@@ -214,9 +223,9 @@ func TestParser_ParseFile(t *testing.T) {
 					}: {
 						Type: "virtualbox-iso",
 						Name: "ubuntu-1204",
-						Cfg: &iso.FlatConfig{
-							HTTPDir: strPtr("xxx"),
-						},
+						// Cfg: &iso.FlatConfig{
+						// 	HTTPDir: "xxx",
+						// },
 					},
 					SourceRef{
 						Type: "amazon-ebs",
@@ -224,21 +233,21 @@ func TestParser_ParseFile(t *testing.T) {
 					}: {
 						Type: "amazon-ebs",
 						Name: "ubuntu-1604",
-						Cfg: &amazonebs.FlatConfig{
-							RawRegion:            strPtr("eu-west-3"),
-							AMIEncryptBootVolume: boolPtr(true),
-							InstanceType:         strPtr("t2.micro"),
-							SourceAmiFilter: &awscommon.FlatAmiFilterOptions{
-								Filters: map[string]string{
-									"name":                "ubuntu/images/*ubuntu-xenial-{16.04}-amd64-server-*",
-									"root-device-type":    "ebs",
-									"virtualization-type": "hvm",
-								},
-								Owners: []string{"099720109477"},
-							},
-							AMIMappings:    []awscommon.FlatBlockDevice{},
-							LaunchMappings: []awscommon.FlatBlockDevice{},
-						},
+						// Cfg: &amazonebs.FlatConfig{
+						// 	RawRegion:            "eu-west-3",
+						// 	AMIEncryptBootVolume: boolPtr(true),
+						// 	InstanceType:         "t2.micro",
+						// 	SourceAmiFilter: &awscommon.FlatAmiFilterOptions{
+						// 		Filters: map[string]string{
+						// 			"name":                "ubuntu/images/*ubuntu-xenial-{16.04}-amd64-server-*",
+						// 			"root-device-type":    "ebs",
+						// 			"virtualization-type": "hvm",
+						// 		},
+						// 		Owners: []string{"099720109477"},
+						// 	},
+						// 	AMIMappings:    []awscommon.FlatBlockDevice{},
+						// 	LaunchMappings: []awscommon.FlatBlockDevice{},
+						// },
 					},
 					SourceRef{
 						Type: "amazon-ebs",
@@ -246,16 +255,16 @@ func TestParser_ParseFile(t *testing.T) {
 					}: {
 						Type: "amazon-ebs",
 						Name: "that-ubuntu-1.0",
-						Cfg: &amazonebs.FlatConfig{
-							RawRegion:            strPtr("eu-west-3"),
-							AMIEncryptBootVolume: boolPtr(true),
-							InstanceType:         strPtr("t2.micro"),
-							SourceAmiFilter: &awscommon.FlatAmiFilterOptions{
-								MostRecent: boolPtr(true),
-							},
-							AMIMappings:    []awscommon.FlatBlockDevice{},
-							LaunchMappings: []awscommon.FlatBlockDevice{},
-						},
+						// Cfg: &amazonebs.FlatConfig{
+						// 	RawRegion:            "eu-west-3",
+						// 	AMIEncryptBootVolume: boolPtr(true),
+						// 	InstanceType:         "t2.micro",
+						// 	SourceAmiFilter: &awscommon.FlatAmiFilterOptions{
+						// 		MostRecent: boolPtr(true),
+						// 	},
+						// 	AMIMappings:    []awscommon.FlatBlockDevice{},
+						// 	LaunchMappings: []awscommon.FlatBlockDevice{},
+						// },
 					},
 				},
 			},
@@ -291,26 +300,34 @@ func TestParser_ParseFile(t *testing.T) {
 							&ProvisionerGroup{
 								CommunicatorRef: CommunicatorRef{"ssh", "vagrant"},
 								Provisioners: []Provisioner{
-									{Cfg: &shell.FlatConfig{
-										Inline: []string{"echo '{{user `my_secret`}}' :D"},
-									}},
-									{Cfg: &shell.FlatConfig{
-										Scripts:        []string{"script-1.sh", "script-2.sh"},
-										ValidExitCodes: []int{0, 42},
-									}},
-									{Cfg: &file.FlatConfig{
-										Source:      strPtr("app.tar.gz"),
-										Destination: strPtr("/tmp/app.tar.gz"),
-									}},
+									{
+										// Cfg: &shell.FlatConfig{
+										// 	Inline: []string{"echo '{{user `my_secret`}}' :D"},
+										// },
+									},
+									{
+										// Cfg: &shell.FlatConfig{
+										// 	Scripts:        []string{"script-1.sh", "script-2.sh"},
+										// 	ValidExitCodes: []int{0, 42},
+										// },
+									},
+									{
+										// Cfg: &file.FlatConfig{
+										// 	Source:      "app.tar.gz",
+										// 	Destination: "/tmp/app.tar.gz",
+										// },
+									},
 								},
 							},
 						},
 						PostProvisionerGroups: ProvisionerGroups{
 							&ProvisionerGroup{
 								Provisioners: []Provisioner{
-									{Cfg: &amazon_import.FlatConfig{
-										Name: strPtr("that-ubuntu-1.0"),
-									}},
+									{
+										// Cfg: &amazon_import.FlatConfig{
+										// 	Name: "that-ubuntu-1.0",
+										// },
+									},
 								},
 							},
 						},
@@ -324,9 +341,11 @@ func TestParser_ParseFile(t *testing.T) {
 						ProvisionerGroups: ProvisionerGroups{
 							&ProvisionerGroup{
 								Provisioners: []Provisioner{
-									{Cfg: &shell.FlatConfig{
-										Inline: []string{"echo HOLY GUACAMOLE !"},
-									}},
+									{
+										// Cfg: &shell.FlatConfig{
+										// 	Inline: []string{"echo HOLY GUACAMOLE !"},
+										// },
+									},
 								},
 							},
 						},
@@ -352,6 +371,7 @@ func TestParser_ParseFile(t *testing.T) {
 			}
 			if diff := cmp.Diff(tt.wantPackerConfig, tt.args.cfg,
 				cmpopts.IgnoreUnexported(cty.Value{}),
+				cmpopts.IgnoreUnexported(iso.Builder{}),
 				cmpopts.IgnoreTypes(HCL2Ref{}),
 				cmpopts.IgnoreTypes([]hcl.Range{}),
 				cmpopts.IgnoreTypes(hcl.Range{}),
@@ -366,7 +386,3 @@ func TestParser_ParseFile(t *testing.T) {
 		})
 	}
 }
-
-func strPtr(s string) *string { return &s }
-func intPtr(i int) *int       { return &i }
-func boolPtr(b bool) *bool    { return &b }

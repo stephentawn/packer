@@ -124,7 +124,7 @@ func (p *Parser) ParseFile(f *hcl.File, cfg *PackerConfig) hcl.Diagnostics {
 				cfg.Sources = map[SourceRef]*Source{}
 			}
 
-			source, moreDiags := p.decodeSource(block, p.BuilderSchemas)
+			source, moreDiags := p.decodeSource(block)
 			diags = append(diags, moreDiags...)
 
 			ref := source.Ref()
