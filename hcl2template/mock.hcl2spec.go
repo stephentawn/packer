@@ -24,7 +24,7 @@ type FlatMockConfig struct {
 // FlatMapstructure returns a new FlatMockConfig.
 // FlatMockConfig is an auto-generated flat version of MockConfig.
 // Where the contents a fields with a `mapstructure:,squash` tag are bubbled up.
-func (*MockConfig) FlatMapstructure() *FlatMockConfig { return new(FlatMockConfig) }
+func (*MockConfig) FlatMapstructure() interface{} { return new(FlatMockConfig) }
 
 // HCL2Spec returns the hcl spec of a MockConfig.
 // This spec is used by HCL to read the fields of MockConfig.
@@ -61,7 +61,7 @@ type FlatNestedMockConfig struct {
 // FlatMapstructure returns a new FlatNestedMockConfig.
 // FlatNestedMockConfig is an auto-generated flat version of NestedMockConfig.
 // Where the contents a fields with a `mapstructure:,squash` tag are bubbled up.
-func (*NestedMockConfig) FlatMapstructure() *FlatNestedMockConfig { return new(FlatNestedMockConfig) }
+func (*NestedMockConfig) FlatMapstructure() interface{} { return new(FlatNestedMockConfig) }
 
 // HCL2Spec returns the hcl spec of a NestedMockConfig.
 // This spec is used by HCL to read the fields of NestedMockConfig.

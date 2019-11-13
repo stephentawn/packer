@@ -54,7 +54,7 @@ type FlatConfig struct {
 // FlatMapstructure returns a new FlatConfig.
 // FlatConfig is an auto-generated flat version of Config.
 // Where the contents a fields with a `mapstructure:,squash` tag are bubbled up.
-func (*Config) FlatMapstructure() *FlatConfig { return new(FlatConfig) }
+func (*Config) FlatMapstructure() interface{} { return new(FlatConfig) }
 
 // HCL2Spec returns the hcl spec of a Config.
 // This spec is used by HCL to read the fields of Config.
@@ -143,7 +143,7 @@ type FlatSSH struct {
 // FlatMapstructure returns a new FlatSSH.
 // FlatSSH is an auto-generated flat version of SSH.
 // Where the contents a fields with a `mapstructure:,squash` tag are bubbled up.
-func (*SSH) FlatMapstructure() *FlatSSH { return new(FlatSSH) }
+func (*SSH) FlatMapstructure() interface{} { return new(FlatSSH) }
 
 // HCL2Spec returns the hcl spec of a SSH.
 // This spec is used by HCL to read the fields of SSH.
@@ -200,7 +200,7 @@ type FlatWinRM struct {
 // FlatMapstructure returns a new FlatWinRM.
 // FlatWinRM is an auto-generated flat version of WinRM.
 // Where the contents a fields with a `mapstructure:,squash` tag are bubbled up.
-func (*WinRM) FlatMapstructure() *FlatWinRM { return new(FlatWinRM) }
+func (*WinRM) FlatMapstructure() interface{} { return new(FlatWinRM) }
 
 // HCL2Spec returns the hcl spec of a WinRM.
 // This spec is used by HCL to read the fields of WinRM.

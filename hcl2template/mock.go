@@ -41,6 +41,12 @@ var _ packer.Builder = new(MockBuilder)
 func (b *MockBuilder) ConfigSpec() hcldec.ObjectSpec { return b.Config.HCL2Spec() }
 
 func (b *MockBuilder) Prepare(raws ...interface{}) ([]string, error) {
+	err := config.Decode(b.Config, &config.DecodeOpts{
+		Interpolate: true,
+	}, raws...)
+	if err != nil {
+		return nil, err
+	}
 	return nil, nil
 }
 

@@ -118,7 +118,7 @@ type FlatConfig struct {
 // FlatMapstructure returns a new FlatConfig.
 // FlatConfig is an auto-generated flat version of Config.
 // Where the contents a fields with a `mapstructure:,squash` tag are bubbled up.
-func (*Config) FlatMapstructure() *FlatConfig { return new(FlatConfig) }
+func (*Config) FlatMapstructure() interface{} { return new(FlatConfig) }
 
 // HCL2Spec returns the hcl spec of a Config.
 // This spec is used by HCL to read the fields of Config.
@@ -242,7 +242,7 @@ type FlatImageFilter struct {
 // FlatMapstructure returns a new FlatImageFilter.
 // FlatImageFilter is an auto-generated flat version of ImageFilter.
 // Where the contents a fields with a `mapstructure:,squash` tag are bubbled up.
-func (*ImageFilter) FlatMapstructure() *FlatImageFilter { return new(FlatImageFilter) }
+func (*ImageFilter) FlatMapstructure() interface{} { return new(FlatImageFilter) }
 
 // HCL2Spec returns the hcl spec of a ImageFilter.
 // This spec is used by HCL to read the fields of ImageFilter.
@@ -268,9 +268,7 @@ type FlatImageFilterOptions struct {
 // FlatMapstructure returns a new FlatImageFilterOptions.
 // FlatImageFilterOptions is an auto-generated flat version of ImageFilterOptions.
 // Where the contents a fields with a `mapstructure:,squash` tag are bubbled up.
-func (*ImageFilterOptions) FlatMapstructure() *FlatImageFilterOptions {
-	return new(FlatImageFilterOptions)
-}
+func (*ImageFilterOptions) FlatMapstructure() interface{} { return new(FlatImageFilterOptions) }
 
 // HCL2Spec returns the hcl spec of a ImageFilterOptions.
 // This spec is used by HCL to read the fields of ImageFilterOptions.

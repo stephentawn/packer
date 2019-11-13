@@ -17,9 +17,7 @@ type FlattencentCloudDataDisk struct {
 // FlatMapstructure returns a new FlattencentCloudDataDisk.
 // FlattencentCloudDataDisk is an auto-generated flat version of tencentCloudDataDisk.
 // Where the contents a fields with a `mapstructure:,squash` tag are bubbled up.
-func (*tencentCloudDataDisk) FlatMapstructure() *FlattencentCloudDataDisk {
-	return new(FlattencentCloudDataDisk)
-}
+func (*tencentCloudDataDisk) FlatMapstructure() interface{} { return new(FlattencentCloudDataDisk) }
 
 // HCL2Spec returns the hcl spec of a tencentCloudDataDisk.
 // This spec is used by HCL to read the fields of tencentCloudDataDisk.

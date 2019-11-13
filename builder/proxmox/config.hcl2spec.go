@@ -89,7 +89,7 @@ type FlatConfig struct {
 // FlatMapstructure returns a new FlatConfig.
 // FlatConfig is an auto-generated flat version of Config.
 // Where the contents a fields with a `mapstructure:,squash` tag are bubbled up.
-func (*Config) FlatMapstructure() *FlatConfig { return new(FlatConfig) }
+func (*Config) FlatMapstructure() interface{} { return new(FlatConfig) }
 
 // HCL2Spec returns the hcl spec of a Config.
 // This spec is used by HCL to read the fields of Config.
@@ -189,7 +189,7 @@ type FlatdiskConfig struct {
 // FlatMapstructure returns a new FlatdiskConfig.
 // FlatdiskConfig is an auto-generated flat version of diskConfig.
 // Where the contents a fields with a `mapstructure:,squash` tag are bubbled up.
-func (*diskConfig) FlatMapstructure() *FlatdiskConfig { return new(FlatdiskConfig) }
+func (*diskConfig) FlatMapstructure() interface{} { return new(FlatdiskConfig) }
 
 // HCL2Spec returns the hcl spec of a diskConfig.
 // This spec is used by HCL to read the fields of diskConfig.
@@ -218,7 +218,7 @@ type FlatnicConfig struct {
 // FlatMapstructure returns a new FlatnicConfig.
 // FlatnicConfig is an auto-generated flat version of nicConfig.
 // Where the contents a fields with a `mapstructure:,squash` tag are bubbled up.
-func (*nicConfig) FlatMapstructure() *FlatnicConfig { return new(FlatnicConfig) }
+func (*nicConfig) FlatMapstructure() interface{} { return new(FlatnicConfig) }
 
 // HCL2Spec returns the hcl spec of a nicConfig.
 // This spec is used by HCL to read the fields of nicConfig.

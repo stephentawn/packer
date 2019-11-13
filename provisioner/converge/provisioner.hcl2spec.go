@@ -31,7 +31,7 @@ type FlatConfig struct {
 // FlatMapstructure returns a new FlatConfig.
 // FlatConfig is an auto-generated flat version of Config.
 // Where the contents a fields with a `mapstructure:,squash` tag are bubbled up.
-func (*Config) FlatMapstructure() *FlatConfig { return new(FlatConfig) }
+func (*Config) FlatMapstructure() interface{} { return new(FlatConfig) }
 
 // HCL2Spec returns the hcl spec of a Config.
 // This spec is used by HCL to read the fields of Config.
@@ -70,7 +70,7 @@ type FlatModuleDir struct {
 // FlatMapstructure returns a new FlatModuleDir.
 // FlatModuleDir is an auto-generated flat version of ModuleDir.
 // Where the contents a fields with a `mapstructure:,squash` tag are bubbled up.
-func (*ModuleDir) FlatMapstructure() *FlatModuleDir { return new(FlatModuleDir) }
+func (*ModuleDir) FlatMapstructure() interface{} { return new(FlatModuleDir) }
 
 // HCL2Spec returns the hcl spec of a ModuleDir.
 // This spec is used by HCL to read the fields of ModuleDir.

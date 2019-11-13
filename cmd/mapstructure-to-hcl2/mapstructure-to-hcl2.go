@@ -159,7 +159,7 @@ func main() {
 		fmt.Fprintf(out, "\n// FlatMapstructure returns a new %s.", flatenedStruct.FlatStructName)
 		fmt.Fprintf(out, "\n// %s is an auto-generated flat version of %s.", flatenedStruct.FlatStructName, flatenedStruct.OriginalStructName)
 		fmt.Fprintf(out, "\n// Where the contents a fields with a `mapstructure:,squash` tag are bubbled up.")
-		fmt.Fprintf(out, "\nfunc (*%s) FlatMapstructure() *%s {", flatenedStruct.OriginalStructName, flatenedStruct.FlatStructName)
+		fmt.Fprintf(out, "\nfunc (*%s) FlatMapstructure() interface{} {", flatenedStruct.OriginalStructName)
 		fmt.Fprintf(out, "return new(%s)", flatenedStruct.FlatStructName)
 		fmt.Fprint(out, "}\n")
 
