@@ -110,7 +110,7 @@ type FlatConfig struct {
 // FlatMapstructure returns a new FlatConfig.
 // FlatConfig is an auto-generated flat version of Config.
 // Where the contents a fields with a `mapstructure:,squash` tag are bubbled up.
-func (*Config) FlatMapstructure() interface{} { return new(FlatConfig) }
+func (*Config) FlatMapstructure() *FlatConfig { return new(FlatConfig) }
 
 // HCL2Spec returns the hcl spec of a Config.
 // This spec is used by HCL to read the fields of Config.
@@ -229,7 +229,7 @@ type FlatPlanInformation struct {
 // FlatMapstructure returns a new FlatPlanInformation.
 // FlatPlanInformation is an auto-generated flat version of PlanInformation.
 // Where the contents a fields with a `mapstructure:,squash` tag are bubbled up.
-func (*PlanInformation) FlatMapstructure() interface{} { return new(FlatPlanInformation) }
+func (*PlanInformation) FlatMapstructure() *FlatPlanInformation { return new(FlatPlanInformation) }
 
 // HCL2Spec returns the hcl spec of a PlanInformation.
 // This spec is used by HCL to read the fields of PlanInformation.
@@ -257,7 +257,9 @@ type FlatSharedImageGallery struct {
 // FlatMapstructure returns a new FlatSharedImageGallery.
 // FlatSharedImageGallery is an auto-generated flat version of SharedImageGallery.
 // Where the contents a fields with a `mapstructure:,squash` tag are bubbled up.
-func (*SharedImageGallery) FlatMapstructure() interface{} { return new(FlatSharedImageGallery) }
+func (*SharedImageGallery) FlatMapstructure() *FlatSharedImageGallery {
+	return new(FlatSharedImageGallery)
+}
 
 // HCL2Spec returns the hcl spec of a SharedImageGallery.
 // This spec is used by HCL to read the fields of SharedImageGallery.
@@ -286,7 +288,7 @@ type FlatSharedImageGalleryDestination struct {
 // FlatMapstructure returns a new FlatSharedImageGalleryDestination.
 // FlatSharedImageGalleryDestination is an auto-generated flat version of SharedImageGalleryDestination.
 // Where the contents a fields with a `mapstructure:,squash` tag are bubbled up.
-func (*SharedImageGalleryDestination) FlatMapstructure() interface{} {
+func (*SharedImageGalleryDestination) FlatMapstructure() *FlatSharedImageGalleryDestination {
 	return new(FlatSharedImageGalleryDestination)
 }
 

@@ -24,7 +24,7 @@ type FlatBlockDevice struct {
 // FlatMapstructure returns a new FlatBlockDevice.
 // FlatBlockDevice is an auto-generated flat version of BlockDevice.
 // Where the contents a fields with a `mapstructure:,squash` tag are bubbled up.
-func (*BlockDevice) FlatMapstructure() interface{} { return new(FlatBlockDevice) }
+func (*BlockDevice) FlatMapstructure() *FlatBlockDevice { return new(FlatBlockDevice) }
 
 // HCL2Spec returns the hcl spec of a BlockDevice.
 // This spec is used by HCL to read the fields of BlockDevice.

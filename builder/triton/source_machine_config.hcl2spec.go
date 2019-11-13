@@ -22,7 +22,9 @@ type FlatMachineImageFilter struct {
 // FlatMapstructure returns a new FlatMachineImageFilter.
 // FlatMachineImageFilter is an auto-generated flat version of MachineImageFilter.
 // Where the contents a fields with a `mapstructure:,squash` tag are bubbled up.
-func (*MachineImageFilter) FlatMapstructure() interface{} { return new(FlatMachineImageFilter) }
+func (*MachineImageFilter) FlatMapstructure() *FlatMachineImageFilter {
+	return new(FlatMachineImageFilter)
+}
 
 // HCL2Spec returns the hcl spec of a MachineImageFilter.
 // This spec is used by HCL to read the fields of MachineImageFilter.

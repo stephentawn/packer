@@ -25,7 +25,7 @@ type FlatMockBuilder struct {
 // FlatMapstructure returns a new FlatMockBuilder.
 // FlatMockBuilder is an auto-generated flat version of MockBuilder.
 // Where the contents a fields with a `mapstructure:,squash` tag are bubbled up.
-func (*MockBuilder) FlatMapstructure() interface{} { return new(FlatMockBuilder) }
+func (*MockBuilder) FlatMapstructure() *FlatMockBuilder { return new(FlatMockBuilder) }
 
 // HCL2Spec returns the hcl spec of a MockBuilder.
 // This spec is used by HCL to read the fields of MockBuilder.
@@ -72,7 +72,7 @@ type FlatMockCommunicator struct {
 // FlatMapstructure returns a new FlatMockCommunicator.
 // FlatMockCommunicator is an auto-generated flat version of MockCommunicator.
 // Where the contents a fields with a `mapstructure:,squash` tag are bubbled up.
-func (*MockCommunicator) FlatMapstructure() interface{} { return new(FlatMockCommunicator) }
+func (*MockCommunicator) FlatMapstructure() *FlatMockCommunicator { return new(FlatMockCommunicator) }
 
 // HCL2Spec returns the hcl spec of a MockCommunicator.
 // This spec is used by HCL to read the fields of MockCommunicator.
@@ -114,7 +114,7 @@ type FlatMockProvisioner struct {
 // FlatMapstructure returns a new FlatMockProvisioner.
 // FlatMockProvisioner is an auto-generated flat version of MockProvisioner.
 // Where the contents a fields with a `mapstructure:,squash` tag are bubbled up.
-func (*MockProvisioner) FlatMapstructure() interface{} { return new(FlatMockProvisioner) }
+func (*MockProvisioner) FlatMapstructure() *FlatMockProvisioner { return new(FlatMockProvisioner) }
 
 // HCL2Spec returns the hcl spec of a MockProvisioner.
 // This spec is used by HCL to read the fields of MockProvisioner.
@@ -142,7 +142,7 @@ type FlatRemoteCmd struct {
 // FlatMapstructure returns a new FlatRemoteCmd.
 // FlatRemoteCmd is an auto-generated flat version of RemoteCmd.
 // Where the contents a fields with a `mapstructure:,squash` tag are bubbled up.
-func (*RemoteCmd) FlatMapstructure() interface{} { return new(FlatRemoteCmd) }
+func (*RemoteCmd) FlatMapstructure() *FlatRemoteCmd { return new(FlatRemoteCmd) }
 
 // HCL2Spec returns the hcl spec of a RemoteCmd.
 // This spec is used by HCL to read the fields of RemoteCmd.

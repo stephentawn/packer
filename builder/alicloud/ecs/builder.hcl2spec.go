@@ -22,7 +22,9 @@ type FlatAlicloudDiskDevice struct {
 // FlatMapstructure returns a new FlatAlicloudDiskDevice.
 // FlatAlicloudDiskDevice is an auto-generated flat version of AlicloudDiskDevice.
 // Where the contents a fields with a `mapstructure:,squash` tag are bubbled up.
-func (*AlicloudDiskDevice) FlatMapstructure() interface{} { return new(FlatAlicloudDiskDevice) }
+func (*AlicloudDiskDevice) FlatMapstructure() *FlatAlicloudDiskDevice {
+	return new(FlatAlicloudDiskDevice)
+}
 
 // HCL2Spec returns the hcl spec of a AlicloudDiskDevice.
 // This spec is used by HCL to read the fields of AlicloudDiskDevice.
@@ -138,7 +140,7 @@ type FlatConfig struct {
 // FlatMapstructure returns a new FlatConfig.
 // FlatConfig is an auto-generated flat version of Config.
 // Where the contents a fields with a `mapstructure:,squash` tag are bubbled up.
-func (*Config) FlatMapstructure() interface{} { return new(FlatConfig) }
+func (*Config) FlatMapstructure() *FlatConfig { return new(FlatConfig) }
 
 // HCL2Spec returns the hcl spec of a Config.
 // This spec is used by HCL to read the fields of Config.

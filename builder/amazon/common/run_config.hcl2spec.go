@@ -17,7 +17,7 @@ type FlatAmiFilterOptions struct {
 // FlatMapstructure returns a new FlatAmiFilterOptions.
 // FlatAmiFilterOptions is an auto-generated flat version of AmiFilterOptions.
 // Where the contents a fields with a `mapstructure:,squash` tag are bubbled up.
-func (*AmiFilterOptions) FlatMapstructure() interface{} { return new(FlatAmiFilterOptions) }
+func (*AmiFilterOptions) FlatMapstructure() *FlatAmiFilterOptions { return new(FlatAmiFilterOptions) }
 
 // HCL2Spec returns the hcl spec of a AmiFilterOptions.
 // This spec is used by HCL to read the fields of AmiFilterOptions.
@@ -41,7 +41,7 @@ type FlatPolicyDocument struct {
 // FlatMapstructure returns a new FlatPolicyDocument.
 // FlatPolicyDocument is an auto-generated flat version of PolicyDocument.
 // Where the contents a fields with a `mapstructure:,squash` tag are bubbled up.
-func (*PolicyDocument) FlatMapstructure() interface{} { return new(FlatPolicyDocument) }
+func (*PolicyDocument) FlatMapstructure() *FlatPolicyDocument { return new(FlatPolicyDocument) }
 
 // HCL2Spec returns the hcl spec of a PolicyDocument.
 // This spec is used by HCL to read the fields of PolicyDocument.
@@ -63,7 +63,7 @@ type FlatSecurityGroupFilterOptions struct {
 // FlatMapstructure returns a new FlatSecurityGroupFilterOptions.
 // FlatSecurityGroupFilterOptions is an auto-generated flat version of SecurityGroupFilterOptions.
 // Where the contents a fields with a `mapstructure:,squash` tag are bubbled up.
-func (*SecurityGroupFilterOptions) FlatMapstructure() interface{} {
+func (*SecurityGroupFilterOptions) FlatMapstructure() *FlatSecurityGroupFilterOptions {
 	return new(FlatSecurityGroupFilterOptions)
 }
 
@@ -88,7 +88,7 @@ type FlatStatement struct {
 // FlatMapstructure returns a new FlatStatement.
 // FlatStatement is an auto-generated flat version of Statement.
 // Where the contents a fields with a `mapstructure:,squash` tag are bubbled up.
-func (*Statement) FlatMapstructure() interface{} { return new(FlatStatement) }
+func (*Statement) FlatMapstructure() *FlatStatement { return new(FlatStatement) }
 
 // HCL2Spec returns the hcl spec of a Statement.
 // This spec is used by HCL to read the fields of Statement.
@@ -113,7 +113,9 @@ type FlatSubnetFilterOptions struct {
 // FlatMapstructure returns a new FlatSubnetFilterOptions.
 // FlatSubnetFilterOptions is an auto-generated flat version of SubnetFilterOptions.
 // Where the contents a fields with a `mapstructure:,squash` tag are bubbled up.
-func (*SubnetFilterOptions) FlatMapstructure() interface{} { return new(FlatSubnetFilterOptions) }
+func (*SubnetFilterOptions) FlatMapstructure() *FlatSubnetFilterOptions {
+	return new(FlatSubnetFilterOptions)
+}
 
 // HCL2Spec returns the hcl spec of a SubnetFilterOptions.
 // This spec is used by HCL to read the fields of SubnetFilterOptions.
@@ -136,7 +138,7 @@ type FlatVpcFilterOptions struct {
 // FlatMapstructure returns a new FlatVpcFilterOptions.
 // FlatVpcFilterOptions is an auto-generated flat version of VpcFilterOptions.
 // Where the contents a fields with a `mapstructure:,squash` tag are bubbled up.
-func (*VpcFilterOptions) FlatMapstructure() interface{} { return new(FlatVpcFilterOptions) }
+func (*VpcFilterOptions) FlatMapstructure() *FlatVpcFilterOptions { return new(FlatVpcFilterOptions) }
 
 // HCL2Spec returns the hcl spec of a VpcFilterOptions.
 // This spec is used by HCL to read the fields of VpcFilterOptions.

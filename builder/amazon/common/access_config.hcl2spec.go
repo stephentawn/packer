@@ -18,7 +18,9 @@ type FlatVaultAWSEngineOptions struct {
 // FlatMapstructure returns a new FlatVaultAWSEngineOptions.
 // FlatVaultAWSEngineOptions is an auto-generated flat version of VaultAWSEngineOptions.
 // Where the contents a fields with a `mapstructure:,squash` tag are bubbled up.
-func (*VaultAWSEngineOptions) FlatMapstructure() interface{} { return new(FlatVaultAWSEngineOptions) }
+func (*VaultAWSEngineOptions) FlatMapstructure() *FlatVaultAWSEngineOptions {
+	return new(FlatVaultAWSEngineOptions)
+}
 
 // HCL2Spec returns the hcl spec of a VaultAWSEngineOptions.
 // This spec is used by HCL to read the fields of VaultAWSEngineOptions.

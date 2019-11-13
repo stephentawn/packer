@@ -125,7 +125,7 @@ func main() {
 		newStructName := "Flat" + id.Name
 		structs = append(structs, StructDef{
 			OriginalStructName: id.Name,
-			StructName:         newStructName,
+			FlatStructName:     newStructName,
 			Struct:             flatenedStruct,
 		})
 
@@ -150,22 +150,22 @@ func main() {
 		return structs[i].OriginalStructName < structs[j].OriginalStructName
 	})
 	for _, flatenedStruct := range structs {
-		fmt.Fprintf(out, "\n// %s is an auto-generated flat version of %s.", flatenedStruct.StructName, flatenedStruct.OriginalStructName)
+		fmt.Fprintf(out, "\n// %s is an auto-generated flat version of %s.", flatenedStruct.FlatStructName, flatenedStruct.OriginalStructName)
 		fmt.Fprintf(out, "\n// Where the contents of a field with a `mapstructure:,squash` tag are bubbled up.")
-		fmt.Fprintf(out, "\ntype %s struct {\n", flatenedStruct.StructName)
+		fmt.Fprintf(out, "\ntype %s struct {\n", flatenedStruct.FlatStructName)
 		outputStructFields(out, flatenedStruct.Struct)
 		fmt.Fprint(out, "}\n")
 
-		fmt.Fprintf(out, "\n// FlatMapstructure returns a new %s.", flatenedStruct.StructName)
-		fmt.Fprintf(out, "\n// %s is an auto-generated flat version of %s.", flatenedStruct.StructName, flatenedStruct.OriginalStructName)
+		fmt.Fprintf(out, "\n// FlatMapstructure returns a new %s.", flatenedStruct.FlatStructName)
+		fmt.Fprintf(out, "\n// %s is an auto-generated flat version of %s.", flatenedStruct.FlatStructName, flatenedStruct.OriginalStructName)
 		fmt.Fprintf(out, "\n// Where the contents a fields with a `mapstructure:,squash` tag are bubbled up.")
-		fmt.Fprintf(out, "\nfunc (*%s) FlatMapstructure() interface{} {", flatenedStruct.OriginalStructName)
-		fmt.Fprintf(out, "return new(%s)", flatenedStruct.StructName)
+		fmt.Fprintf(out, "\nfunc (*%s) FlatMapstructure() *%s {", flatenedStruct.OriginalStructName, flatenedStruct.FlatStructName)
+		fmt.Fprintf(out, "return new(%s)", flatenedStruct.FlatStructName)
 		fmt.Fprint(out, "}\n")
 
 		fmt.Fprintf(out, "\n// HCL2Spec returns the hcl spec of a %s.", flatenedStruct.OriginalStructName)
 		fmt.Fprintf(out, "\n// This spec is used by HCL to read the fields of %s.", flatenedStruct.OriginalStructName)
-		fmt.Fprintf(out, "\n// The decoded values from this spec will then be applied to a %s.", flatenedStruct.StructName)
+		fmt.Fprintf(out, "\n// The decoded values from this spec will then be applied to a %s.", flatenedStruct.FlatStructName)
 		fmt.Fprintf(out, "\nfunc (*%s) HCL2Spec() map[string]hcldec.Spec {\n", flatenedStruct.OriginalStructName)
 		outputStructHCL2SpecBody(out, flatenedStruct.Struct)
 		fmt.Fprint(out, "}\n")
@@ -197,7 +197,7 @@ func main() {
 
 type StructDef struct {
 	OriginalStructName string
-	StructName         string
+	FlatStructName     string
 	Struct             *types.Struct
 }
 

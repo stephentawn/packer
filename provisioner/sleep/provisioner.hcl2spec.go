@@ -15,7 +15,7 @@ type FlatProvisioner struct {
 // FlatMapstructure returns a new FlatProvisioner.
 // FlatProvisioner is an auto-generated flat version of Provisioner.
 // Where the contents a fields with a `mapstructure:,squash` tag are bubbled up.
-func (*Provisioner) FlatMapstructure() interface{} { return new(FlatProvisioner) }
+func (*Provisioner) FlatMapstructure() *FlatProvisioner { return new(FlatProvisioner) }
 
 // HCL2Spec returns the hcl spec of a Provisioner.
 // This spec is used by HCL to read the fields of Provisioner.

@@ -15,7 +15,7 @@ type FlatOutputConfig struct {
 // FlatMapstructure returns a new FlatOutputConfig.
 // FlatOutputConfig is an auto-generated flat version of OutputConfig.
 // Where the contents a fields with a `mapstructure:,squash` tag are bubbled up.
-func (*OutputConfig) FlatMapstructure() interface{} { return new(FlatOutputConfig) }
+func (*OutputConfig) FlatMapstructure() *FlatOutputConfig { return new(FlatOutputConfig) }
 
 // HCL2Spec returns the hcl spec of a OutputConfig.
 // This spec is used by HCL to read the fields of OutputConfig.
