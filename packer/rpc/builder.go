@@ -7,7 +7,7 @@ import (
 
 	"github.com/hashicorp/hcl/v2/hcldec"
 	"github.com/hashicorp/packer/packer"
-)  
+)
 
 // An implementation of packer.Builder where the builder is actually executed
 // over an RPC connection.

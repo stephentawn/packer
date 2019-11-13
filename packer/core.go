@@ -42,8 +42,11 @@ type CoreConfig struct {
 	Only   []string
 }
 
-// The function type used to lookup Builder implementations.
+// The function type used to lookup Communicator implementations.
 type CommunicatorFunc func(name string) (Communicator, error)
+
+// The function type used to lookup ConfigurableCommunicator implementations.
+type ConfigurableCommunicatorFunc func(name string) (ConfigurableCommunicator, error)
 
 // The function type used to lookup Builder implementations.
 type BuilderFunc func(name string) (Builder, error)

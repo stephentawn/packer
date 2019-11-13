@@ -31,7 +31,7 @@ type Parser struct {
 	*hclparse.Parser
 
 	BuilderSchemas      packer.BuilderFunc
-	CommunicatorSchemas packer.CommunicatorFunc
+	CommunicatorSchemas packer.ConfigurableCommunicatorFunc
 
 	ProvisionersSchemas provisionerLoader
 

@@ -50,8 +50,6 @@ type RemoteCmd struct {
 // Communicators must be safe for concurrency, meaning multiple calls to
 // Start or any other method may be called at the same time.
 type Communicator interface {
-	Configure(...interface{}) ([]string, error)
-
 	// Start takes a RemoteCmd and starts it. The RemoteCmd must not be
 	// modified after being used with Start, and it must not be used with
 	// Start again. The Start method returns immediately once the command
@@ -80,6 +78,12 @@ type Communicator interface {
 	Download(string, io.Writer) error
 
 	DownloadDir(src string, dst string, exclude []string) error
+}
+
+type ConfigurableCommunicator interface {
+	Communicator
+	HCL2Speccer
+	Configure(...interface{}) ([]string, error)
 }
 
 // RunWithUi runs the remote command and streams the output to any configured
