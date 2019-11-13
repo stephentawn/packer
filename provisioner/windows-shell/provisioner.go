@@ -13,7 +13,7 @@ import (
 	"os"
 	"sort"
 	"strings"
-	"time" 
+	"time"
 
 	"github.com/hashicorp/hcl/v2/hcldec"
 	"github.com/hashicorp/packer/common"
