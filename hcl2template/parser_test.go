@@ -112,24 +112,24 @@ var (
 		Bool:     true,
 		Trilean:  config.TriTrue,
 		Duration: 10 * time.Second,
-		// MapStringString: map[string]string{
-		// 	"a": "b",
-		// 	"c": "d",
-		// },
-		// SliceString: []string{
-		// 	"a",
-		// 	"b",
-		// 	"c",
-		// },
+		MapStringString: map[string]string{
+			"a": "b",
+			"c": "d",
+		},
+		SliceString: []string{
+			"a",
+			"b",
+			"c",
+		},
 	}
 
 	basicMockBuilder = &MockBuilder{
-		Config: &MockConfig{
+		Config: MockConfig{
 			NestedMockConfig: basicNestedMockConfig,
 			// Nested:           basicNestedMockConfig,
-			// NestedSlice: []NestedMockConfig{
-			// basicNestedMockConfig,
-			// },
+			NestedSlice: []NestedMockConfig{
+				// 	basicNestedMockConfig,
+			},
 		},
 	}
 )

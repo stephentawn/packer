@@ -3,7 +3,6 @@ package config
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/zclconf/go-cty/cty/gocty"
 	"reflect"
 	"sort"
 	"strings"
@@ -12,6 +11,8 @@ import (
 	"github.com/hashicorp/packer/template/interpolate"
 	"github.com/mitchellh/mapstructure"
 	"github.com/zclconf/go-cty/cty"
+	"github.com/zclconf/go-cty/cty/gocty"
+	ctyjson "github.com/zclconf/go-cty/cty/json"
 )
 
 // DecodeOpts are the options for decoding configuration.
@@ -40,6 +41,32 @@ var DefaultDecodeHookFuncs = []mapstructure.DecodeHookFunc{
 // Decode decodes the configuration into the target and optionally
 // automatically interpolates all the configuration as it goes.
 func Decode(target interface{}, config *DecodeOpts, raws ...interface{}) error {
+	for i, raw := range raws {
+		// chek for cty value and transform them to json then to a
+		// map[string]interface{} so that mapstructure can do its thing.
+		cval, ok := raw.(cty.Value)
+		if !ok {
+			continue
+		}
+		type flatConfigurer interface {
+			FlatMapstructure() interface{}
+		}
+		ctarget := target.(flatConfigurer)
+		flatCfg := ctarget.FlatMapstructure()
+		err := gocty.FromCtyValue(cval, flatCfg)
+		if err != nil {
+			return err
+		}
+		b, err := ctyjson.SimpleJSONValue{cval}.MarshalJSON()
+		if err != nil {
+			return err
+		}
+		var raw map[string]interface{}
+		if err := json.Unmarshal(b, &raw); err != nil {
+			return err
+		}
+		raws[i] = raw
+	}
 	if config == nil {
 		config = &DecodeOpts{Interpolate: true}
 	}
@@ -89,39 +116,6 @@ func Decode(target interface{}, config *DecodeOpts, raws ...interface{}) error {
 		return err
 	}
 	for _, raw := range raws {
-		if cval, ok := raw.(cty.Value); ok {
-			type flatConfigurer interface {
-				FlatConfig() interface{}
-			}
-			ctarget, ok := target.(flatConfigurer)
-			if !ok {
-				panic("this should not happen")
-			}
-			flatCfg := ctarget.FlatConfig()
-			err := gocty.FromCtyValue(cval, flatCfg)
-			if err != nil {
-				return err
-			}
-			b, err := json.Marshal(flatCfg)
-			if err != nil {
-				return err
-			}
-			var raw interface{}
-			if err := json.Unmarshal(b, &raw); err != nil {
-				return err
-			}
-			decoder, err := mapstructure.NewDecoder(&mapstructure.DecoderConfig{
-				// Metadata: &md,
-				Result: target,
-			})
-			if err != nil {
-				return err
-			}
-			if err := decoder.Decode(raw); err != nil {
-				return err
-			}
-
-		}
 		if err := decoder.Decode(raw); err != nil {
 			return err
 		}

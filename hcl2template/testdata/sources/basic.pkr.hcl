@@ -6,15 +6,19 @@ source "virtualbox-iso" "ubuntu-1204" {
     bool     = true
     trilean  = true
     duration = "10s"
-    // MapStringString {
-    //     "a" = "b"
-    //     "c" = "d"
+    map_string_string {
+        a = "b"
+        c = "d"
+    }
+    slice_string = [
+        "a",
+        "b",
+        "c",
+    ]
+
+    // nested {
+    //     string = "string"
     // }
-    // SliceString = [
-    //     "a",
-    //     "b",
-    //     "c",
-    // ]
 }
 
 // source "amazon-ebs" "ubuntu-1604" {
