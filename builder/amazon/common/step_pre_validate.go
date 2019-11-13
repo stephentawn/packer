@@ -84,12 +84,27 @@ func (s *StepPreValidate) Run(ctx context.Context, state multistep.StateBag) mul
 		return multistep.ActionContinue
 	}
 
-	if s.VpcId != "" && s.SubnetId == "" {
-		state.Put("error", fmt.Errorf("Error: vpc_id '%s' specified without a valid subnet_id", s.VpcId))
-		return multistep.ActionHalt
-	}
-
 	ec2conn := state.Get("ec2").(*ec2.EC2)
+
+	// Validate VPC settings for non-default VPCs
+	if s.VpcId != "" && s.SubnetId == "" {
+		ui.Say(fmt.Sprintf("Prevalidating subnets for VPC %q", s.VpcId))
+		res, err := ec2conn.DescribeVpcs(&ec2.DescribeVpcsInput{VpcIds: []*string{aws.String(s.VpcId)}})
+
+		if isAWSErr(err, "InvalidVpcID.NotFound", "") || err != nil {
+			err = fmt.Errorf("Error retrieving VPC information for vpc_id %q", s.VpcId)
+			state.Put("error", err)
+			ui.Error(err.Error())
+			return multistep.ActionHalt
+		}
+
+		if len(res.Vpcs) > 0 && res.Vpcs[0] != nil {
+			if isDefault := aws.BoolValue(res.Vpcs[0].IsDefault); !isDefault {
+				state.Put("error", fmt.Errorf("Error: subnet_id must be provided for non-default VPCs (%s)", s.VpcId))
+				return multistep.ActionHalt
+			}
+		}
+	}
 
 	ui.Say(fmt.Sprintf("Prevalidating AMI Name: %s", s.DestAmiName))
 	req, resp := ec2conn.DescribeImagesRequest(&ec2.DescribeImagesInput{
