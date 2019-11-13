@@ -37,8 +37,6 @@ const (
 
 func (b *Builder) ConfigSpec() hcldec.ObjectSpec { return b.config.HCL2Spec() }
 
-func (b *Builder) FlatConfig() interface{} { return b.config.FlatMapstructure() }
-
 func (b *Builder) Prepare(raws ...interface{}) ([]string, error) {
 	c, warnings, errs := newConfig(raws...)
 	if errs != nil {

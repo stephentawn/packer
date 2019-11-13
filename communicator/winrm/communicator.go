@@ -1,4 +1,4 @@
-//go:generate mapstructure-to-hcl2 -type Communicator
+//go:generate mapstructure-to-hcl2 -type Config
 
 package winrm
 

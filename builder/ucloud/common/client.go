@@ -7,6 +7,7 @@ import (
 	"github.com/ucloud/ucloud-sdk-go/services/unet"
 	"github.com/ucloud/ucloud-sdk-go/services/vpc"
 	"github.com/ucloud/ucloud-sdk-go/ucloud"
+	uerr "github.com/ucloud/ucloud-sdk-go/ucloud/error"
 )
 
 type UCloudClient struct {

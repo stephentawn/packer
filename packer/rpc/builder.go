@@ -5,8 +5,9 @@ import (
 	"log"
 	"net/rpc"
 
+	"github.com/hashicorp/hcl/v2/hcldec"
 	"github.com/hashicorp/packer/packer"
-)
+)  
 
 // An implementation of packer.Builder where the builder is actually executed
 // over an RPC connection.
@@ -23,6 +24,11 @@ type BuilderServer struct {
 
 	builder packer.Builder
 	mux     *muxBroker
+}
+
+func (p *builder) ConfigSpec() hcldec.ObjectSpec {
+	panic("not implemented")
+	return nil
 }
 
 type BuilderPrepareArgs struct {

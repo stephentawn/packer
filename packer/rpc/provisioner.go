@@ -5,6 +5,7 @@ import (
 	"log"
 	"net/rpc"
 
+	"github.com/hashicorp/hcl/v2/hcldec"
 	"github.com/hashicorp/packer/packer"
 )
 
@@ -36,6 +37,11 @@ func (p *provisioner) Prepare(configs ...interface{}) (err error) {
 	}
 
 	return
+}
+
+func (p *provisioner) ConfigSpec() hcldec.ObjectSpec {
+	panic("not implemented")
+	return nil
 }
 
 func (p *provisioner) Provision(ctx context.Context, ui packer.Ui, comm packer.Communicator) error {

@@ -71,8 +71,6 @@ type Provisioner struct {
 
 func (p *Provisioner) ConfigSpec() hcldec.ObjectSpec { return p.config.HCL2Spec() }
 
-func (p *Provisioner) FlatConfig() interface{} { return p.config.FlatMapstructure() }
-
 func (p *Provisioner) Prepare(raws ...interface{}) error {
 	p.done = make(chan struct{})
 
