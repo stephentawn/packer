@@ -51,9 +51,9 @@ func (p *Parser) Parse(filename string) (*PackerConfig, hcl.Diagnostics) {
 	hclFiles := []string{}
 	jsonFiles := []string{}
 	if strings.HasSuffix(filename, hcl2FileExt) {
-		hclFiles = append(hclFiles, hcl2FileExt)
+		hclFiles = append(hclFiles, filename)
 	} else if strings.HasSuffix(filename, ".json") {
-		jsonFiles = append(jsonFiles, hcl2FileExt)
+		jsonFiles = append(jsonFiles, filename)
 	} else {
 		fileInfos, err := ioutil.ReadDir(filename)
 		if err != nil {
