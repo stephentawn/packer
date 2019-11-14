@@ -41,13 +41,9 @@ var _ packer.Builder = new(MockBuilder)
 func (b *MockBuilder) ConfigSpec() hcldec.ObjectSpec { return b.Config.FlatMapstructure().HCL2Spec() }
 
 func (b *MockBuilder) Prepare(raws ...interface{}) ([]string, error) {
-	err := config.Decode(&b.Config, &config.DecodeOpts{
+	return nil, config.Decode(&b.Config, &config.DecodeOpts{
 		Interpolate: true,
 	}, raws...)
-	if err != nil {
-		return nil, err
-	}
-	return nil, nil
 }
 
 func (b *MockBuilder) Run(ctx context.Context, ui packer.Ui, hook packer.Hook) (packer.Artifact, error) {
@@ -59,19 +55,25 @@ func (b *MockBuilder) Run(ctx context.Context, ui packer.Ui, hook packer.Hook) (
 //////
 
 type MockProvisioner struct {
-	config *MockConfig
+	Config MockConfig
 }
 
 var _ packer.Provisioner = new(MockProvisioner)
 
 func (b *MockProvisioner) ConfigSpec() hcldec.ObjectSpec {
-	return b.config.Nested.FlatMapstructure().HCL2Spec()
+	return b.Config.FlatMapstructure().HCL2Spec()
 }
 
 func (b *MockProvisioner) Prepare(raws ...interface{}) error {
-	return nil
+	return config.Decode(&b.Config, &config.DecodeOpts{
+		Interpolate: true,
+	}, raws...)
 }
 
 func (b *MockProvisioner) Provision(ctx context.Context, ui packer.Ui, comm packer.Communicator) error {
 	return nil
 }
+
+//////
+// MockBuilder
+//////

@@ -12,8 +12,6 @@ import (
 	"github.com/hashicorp/hcl/v2/hclparse"
 	"github.com/hashicorp/packer/helper/config"
 	"github.com/hashicorp/packer/packer"
-	"github.com/hashicorp/packer/provisioner/file"
-	"github.com/hashicorp/packer/provisioner/shell"
 	"github.com/zclconf/go-cty/cty"
 )
 
@@ -26,8 +24,8 @@ func getBasicParser() *Parser {
 		}).Get,
 
 		ProvisionersSchemas: mapOfProvisioner(map[string]packer.Provisioner{
-			"shell": &shell.Provisioner{},
-			"file":  &file.Provisioner{},
+			"shell": &MockProvisioner{},
+			"file":  &MockProvisioner{},
 		}),
 		// PostProvisionersSchemas: mapOfProvisioner(map[string]packer.PostProcessor{
 		// 	"amazon-import": &amazon_import.PostProcessor{},
@@ -124,6 +122,16 @@ var (
 	}
 
 	basicMockBuilder = &MockBuilder{
+		Config: MockConfig{
+			NestedMockConfig: basicNestedMockConfig,
+			Nested:           basicNestedMockConfig,
+			NestedSlice: []NestedMockConfig{
+				{},
+			},
+		},
+	}
+
+	basicMockProvisioner = &MockProvisioner{
 		Config: MockConfig{
 			NestedMockConfig: basicNestedMockConfig,
 			Nested:           basicNestedMockConfig,
