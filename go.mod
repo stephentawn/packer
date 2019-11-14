@@ -158,6 +158,8 @@ require (
 
 replace git.apache.org/thrift.git => github.com/apache/thrift v0.0.0-20180902110319-2566ecd5d999
 
+replace github.com/Azure/go-ntlmssp => /Users/mmarsh/Projects/go-ntlmssp
+
 replace github.com/gofrs/flock => github.com/azr/flock v0.0.0-20190823144736-958d66434653
 
 go 1.13
