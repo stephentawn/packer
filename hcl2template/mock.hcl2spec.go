@@ -42,11 +42,7 @@ func (*FlatMockConfig) HCL2Spec() map[string]hcldec.Spec {
 		"map_string_string": &hcldec.BlockAttrsSpec{TypeName: "map_string_string", ElementType: cty.String, Required: false},
 		"slice_string":      &hcldec.AttrSpec{Name: "slice_string", Type: cty.List(cty.String), Required: false},
 		"nested":            &hcldec.BlockSpec{TypeName: "nested", Nested: hcldec.ObjectSpec((*FlatNestedMockConfig)(nil).HCL2Spec())},
-		"nested_slice": &hcldec.BlockListSpec{TypeName: "nested_slice", Nested: hcldec.ObjectSpec(
-			map[string]hcldec.Spec{
-				"string": &hcldec.AttrSpec{Name: "string", Type: cty.String, Required: false},
-			}),
-		},
+		"nested_slice":      &hcldec.BlockListSpec{TypeName: "nested_slice", Nested: hcldec.ObjectSpec((*FlatNestedMockConfig)(nil).HCL2Spec())},
 	}
 	return s
 }

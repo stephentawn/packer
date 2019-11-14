@@ -75,5 +75,22 @@ func (b *MockProvisioner) Provision(ctx context.Context, ui packer.Ui, comm pack
 }
 
 //////
-// MockBuilder
+// MockCommunicator
 //////
+
+type MockCommunicator struct {
+	Config MockConfig
+	packer.Communicator
+}
+
+var _ packer.ConfigurableCommunicator = new(MockCommunicator)
+
+func (b *MockCommunicator) ConfigSpec() hcldec.ObjectSpec {
+	return b.Config.FlatMapstructure().HCL2Spec()
+}
+
+func (b *MockCommunicator) Configure(raws ...interface{}) ([]string, error) {
+	return nil, config.Decode(&b.Config, &config.DecodeOpts{
+		Interpolate: true,
+	}, raws...)
+}

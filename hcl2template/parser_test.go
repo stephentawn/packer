@@ -30,10 +30,10 @@ func getBasicParser() *Parser {
 		// PostProvisionersSchemas: mapOfProvisioner(map[string]packer.PostProcessor{
 		// 	"amazon-import": &amazon_import.PostProcessor{},
 		// }),
-		// CommunicatorSchemas: mapOfDecodable(map[string]Decodable{
-		// 	"ssh":   &communicator.SSH{},
-		// 	"winrm": &communicator.WinRM{},
-		// }).Get,
+		CommunicatorSchemas: mapOfCommunicator(map[string]packer.ConfigurableCommunicator{
+			"ssh":   &MockCommunicator{},
+			"winrm": &MockCommunicator{},
+		}).Get,
 	}
 }
 
@@ -46,6 +46,17 @@ func (mob mapOfBuilder) Get(builder string) (packer.Builder, error) {
 		err = fmt.Errorf("Unknown entry %s", builder)
 	}
 	return d, err
+}
+
+type mapOfCommunicator map[string]packer.ConfigurableCommunicator
+
+func (mob mapOfCommunicator) Get(communicator string) (packer.ConfigurableCommunicator, error) {
+	c, found := mob[communicator]
+	var err error
+	if !found {
+		err = fmt.Errorf("Unknown entry %s", communicator)
+	}
+	return c, err
 }
 
 type mapOfProvisioner map[string]packer.Provisioner
@@ -126,12 +137,22 @@ var (
 			NestedMockConfig: basicNestedMockConfig,
 			Nested:           basicNestedMockConfig,
 			NestedSlice: []NestedMockConfig{
-				{},
+				basicNestedMockConfig,
+				basicNestedMockConfig,
 			},
 		},
 	}
 
 	basicMockProvisioner = &MockProvisioner{
+		Config: MockConfig{
+			NestedMockConfig: basicNestedMockConfig,
+			Nested:           basicNestedMockConfig,
+			NestedSlice: []NestedMockConfig{
+				{},
+			},
+		},
+	}
+	basicMockCommunicator = &MockCommunicator{
 		Config: MockConfig{
 			NestedMockConfig: basicNestedMockConfig,
 			Nested:           basicNestedMockConfig,
