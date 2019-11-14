@@ -127,9 +127,9 @@ var (
 		Config: MockConfig{
 			NestedMockConfig: basicNestedMockConfig,
 			Nested:           basicNestedMockConfig,
-			// NestedSlice: []NestedMockConfig{
-			// 	// 	basicNestedMockConfig,
-			// },
+			NestedSlice: []NestedMockConfig{
+				{},
+			},
 		},
 	}
 )

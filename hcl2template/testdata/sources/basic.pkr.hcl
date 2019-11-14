@@ -32,6 +32,8 @@ source "virtualbox-iso" "ubuntu-1204" {
             "b",
             "c",
         ]
+    }
 
+    nested_slice {
     }
 }

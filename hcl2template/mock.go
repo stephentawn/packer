@@ -24,8 +24,8 @@ type NestedMockConfig struct {
 
 type MockConfig struct {
 	NestedMockConfig `mapstructure:",squash"`
-	Nested           NestedMockConfig `mapstructure:"nested"`
-	// NestedSlice      []NestedMockConfig `mapstructure:"nested_slice"`
+	Nested           NestedMockConfig   `mapstructure:"nested"`
+	NestedSlice      []NestedMockConfig `mapstructure:"nested_slice"`
 }
 
 //////

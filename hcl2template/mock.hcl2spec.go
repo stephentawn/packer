@@ -9,15 +9,16 @@ import (
 // FlatMockConfig is an auto-generated flat version of MockConfig.
 // Where the contents of a field with a `mapstructure:,squash` tag are bubbled up.
 type FlatMockConfig struct {
-	String          *string               `mapstructure:"string" cty:"string"`
-	Int             *int                  `mapstructure:"int" cty:"int"`
-	Int64           *int64                `mapstructure:"int64" cty:"int64"`
-	Bool            *bool                 `mapstructure:"bool" cty:"bool"`
-	Trilean         *bool                 `mapstructure:"trilean" cty:"trilean"`
-	Duration        *string               `mapstructure:"duration" cty:"duration"`
-	MapStringString map[string]string     `mapstructure:"map_string_string" cty:"map_string_string"`
-	SliceString     []string              `mapstructure:"slice_string" cty:"slice_string"`
-	Nested          *FlatNestedMockConfig `mapstructure:"nested" cty:"nested"`
+	String          *string                `mapstructure:"string" cty:"string"`
+	Int             *int                   `mapstructure:"int" cty:"int"`
+	Int64           *int64                 `mapstructure:"int64" cty:"int64"`
+	Bool            *bool                  `mapstructure:"bool" cty:"bool"`
+	Trilean         *bool                  `mapstructure:"trilean" cty:"trilean"`
+	Duration        *string                `mapstructure:"duration" cty:"duration"`
+	MapStringString map[string]string      `mapstructure:"map_string_string" cty:"map_string_string"`
+	SliceString     []string               `mapstructure:"slice_string" cty:"slice_string"`
+	Nested          *FlatNestedMockConfig  `mapstructure:"nested" cty:"nested"`
+	NestedSlice     []FlatNestedMockConfig `mapstructure:"nested_slice" cty:"nested_slice"`
 }
 
 // FlatMapstructure returns a new FlatMockConfig.
@@ -41,6 +42,11 @@ func (*FlatMockConfig) HCL2Spec() map[string]hcldec.Spec {
 		"map_string_string": &hcldec.BlockAttrsSpec{TypeName: "map_string_string", ElementType: cty.String, Required: false},
 		"slice_string":      &hcldec.AttrSpec{Name: "slice_string", Type: cty.List(cty.String), Required: false},
 		"nested":            &hcldec.BlockSpec{TypeName: "nested", Nested: hcldec.ObjectSpec((*FlatNestedMockConfig)(nil).HCL2Spec())},
+		"nested_slice": &hcldec.BlockListSpec{TypeName: "nested_slice", Nested: hcldec.ObjectSpec(
+			map[string]hcldec.Spec{
+				"string": &hcldec.AttrSpec{Name: "string", Type: cty.String, Required: false},
+			}),
+		},
 	}
 	return s
 }
