@@ -27,6 +27,8 @@ github.com/PuerkitoBio/goquery v1.5.0 h1:uGvmFXOA73IKluu/F84Xd1tt/z07GYm8X49XKHP
 github.com/PuerkitoBio/goquery v1.5.0/go.mod h1:qD2PgZ9lccMbQlc7eEOjaeRlFQON7xY8kdmcsrnKqMg=
 github.com/StackExchange/wmi v0.0.0-20190523213315-cbe66965904d h1:G0m3OIz70MZUWq3EgK3CesDbo8upS2Vm9/P3FtgI+Jk=
 github.com/StackExchange/wmi v0.0.0-20190523213315-cbe66965904d/go.mod h1:3eOhrUMpNV+6aFIbp5/iudMxNCF27Vw2OZgy4xEx0Fg=
+github.com/SwampDragons/go-ntlmssp v0.0.0-20191114194410-deb845135a06 h1:QDBPVcgvDrkcbUNJKnQx98rws+oJX2HO6eaJQgGNI1Q=
+github.com/SwampDragons/go-ntlmssp v0.0.0-20191114194410-deb845135a06/go.mod h1:lbViUaDwUUzZXc1tNs7eX+akb/4mF/r3z/D8cWXa2sE=
 github.com/Telmate/proxmox-api-go v0.0.0-20190815172943-ef9222844e60 h1:iEmbIRk4brAP3wevhCr5MGAqxHUbbIDHvE+6D1/7pRA=
 github.com/Telmate/proxmox-api-go v0.0.0-20190815172943-ef9222844e60/go.mod h1:OGWyIMJ87/k/GCz8CGiWB2HOXsOVDM6Lpe/nFPkC4IQ=
 github.com/Telmate/proxmox-api-go v0.0.0-20191015171801-b0c2796b9fcf h1:rVT2xsBm03Jp0r0yfGm5AMlqp0mZmxTTiNnSrc9S+Hs=

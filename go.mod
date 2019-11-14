@@ -153,12 +153,13 @@ require (
 	google.golang.org/grpc v1.21.1
 	gopkg.in/h2non/gock.v1 v1.0.12 // indirect
 	gopkg.in/ini.v1 v1.42.0 // indirect
+
 	gopkg.in/jarcoal/httpmock.v1 v1.0.0-20181117152235-275e9df93516 // indirect
 )
 
 replace git.apache.org/thrift.git => github.com/apache/thrift v0.0.0-20180902110319-2566ecd5d999
 
-replace github.com/Azure/go-ntlmssp => /Users/mmarsh/Projects/go-ntlmssp
+replace github.com/Azure/go-ntlmssp => github.com/SwampDragons/go-ntlmssp v0.0.0-20191114194410-deb845135a06
 
 replace github.com/gofrs/flock => github.com/azr/flock v0.0.0-20190823144736-958d66434653
 
