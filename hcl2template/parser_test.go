@@ -87,7 +87,7 @@ func testParse(t *testing.T, tests []parseTest) {
 		t.Run(tt.name, func(t *testing.T) {
 			gotCfg, gotDiags := tt.parser.Parse(tt.args.filename)
 			if tt.wantDiags == (gotDiags == nil) {
-				t.Errorf("Parser.Parse() unexpected diagnostics. %s", gotDiags)
+				t.Fatalf("Parser.Parse() unexpected diagnostics. %s", gotDiags)
 			}
 			if diff := cmp.Diff(tt.wantCfg, gotCfg,
 				cmpopts.IgnoreUnexported(cty.Value{}),
@@ -97,7 +97,7 @@ func testParse(t *testing.T, tests []parseTest) {
 				cmpopts.IgnoreInterfaces(struct{ hcl.Expression }{}),
 				cmpopts.IgnoreInterfaces(struct{ hcl.Body }{}),
 			); diff != "" {
-				t.Errorf("Parser.Parse() wrong packer config. %s", diff)
+				t.Fatalf("Parser.Parse() wrong packer config. %s", diff)
 			}
 
 		})
@@ -133,28 +133,3 @@ var (
 		},
 	}
 )
-
-func TestParse_source(t *testing.T) {
-	defaultParser := getBasicParser()
-
-	tests := []parseTest{
-		{"two basic sources",
-			defaultParser,
-			parseTestArgs{"testdata/sources/basic.pkr.hcl"},
-			&PackerConfig{
-				Sources: map[SourceRef]*Source{
-					SourceRef{
-						Type: "virtualbox-iso",
-						Name: "ubuntu-1204",
-					}: {
-						Type:    "virtualbox-iso",
-						Name:    "ubuntu-1204",
-						Builder: basicMockBuilder,
-					},
-				},
-			},
-			false,
-		},
-	}
-	testParse(t, tests)
-}
