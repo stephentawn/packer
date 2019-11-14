@@ -18,12 +18,14 @@ type FlatImageDestination struct {
 // FlatMapstructure returns a new FlatImageDestination.
 // FlatImageDestination is an auto-generated flat version of ImageDestination.
 // Where the contents a fields with a `mapstructure:,squash` tag are bubbled up.
-func (*ImageDestination) FlatMapstructure() interface{} { return new(FlatImageDestination) }
+func (*ImageDestination) FlatMapstructure() interface{ HCL2Spec() map[string]hcldec.Spec } {
+	return new(FlatImageDestination)
+}
 
 // HCL2Spec returns the hcl spec of a ImageDestination.
 // This spec is used by HCL to read the fields of ImageDestination.
 // The decoded values from this spec will then be applied to a FlatImageDestination.
-func (*ImageDestination) HCL2Spec() map[string]hcldec.Spec {
+func (*FlatImageDestination) HCL2Spec() map[string]hcldec.Spec {
 	s := map[string]hcldec.Spec{
 		"project_id":  &hcldec.AttrSpec{Name: "project_id", Type: cty.String, Required: false},
 		"region":      &hcldec.AttrSpec{Name: "region", Type: cty.String, Required: false},

@@ -159,14 +159,14 @@ func main() {
 		fmt.Fprintf(out, "\n// FlatMapstructure returns a new %s.", flatenedStruct.FlatStructName)
 		fmt.Fprintf(out, "\n// %s is an auto-generated flat version of %s.", flatenedStruct.FlatStructName, flatenedStruct.OriginalStructName)
 		fmt.Fprintf(out, "\n// Where the contents a fields with a `mapstructure:,squash` tag are bubbled up.")
-		fmt.Fprintf(out, "\nfunc (*%s) FlatMapstructure() interface{} {", flatenedStruct.OriginalStructName)
+		fmt.Fprintf(out, "\nfunc (*%s) FlatMapstructure() interface{ HCL2Spec() map[string]hcldec.Spec } {", flatenedStruct.OriginalStructName)
 		fmt.Fprintf(out, "return new(%s)", flatenedStruct.FlatStructName)
 		fmt.Fprint(out, "}\n")
 
 		fmt.Fprintf(out, "\n// HCL2Spec returns the hcl spec of a %s.", flatenedStruct.OriginalStructName)
 		fmt.Fprintf(out, "\n// This spec is used by HCL to read the fields of %s.", flatenedStruct.OriginalStructName)
 		fmt.Fprintf(out, "\n// The decoded values from this spec will then be applied to a %s.", flatenedStruct.FlatStructName)
-		fmt.Fprintf(out, "\nfunc (*%s) HCL2Spec() map[string]hcldec.Spec {\n", flatenedStruct.OriginalStructName)
+		fmt.Fprintf(out, "\nfunc (*%s) HCL2Spec() map[string]hcldec.Spec {\n", flatenedStruct.FlatStructName)
 		outputStructHCL2SpecBody(out, flatenedStruct.Struct)
 		fmt.Fprint(out, "}\n")
 	}
@@ -304,7 +304,9 @@ func basicKindToCtyType(kind types.BasicKind) cty.Type {
 func outputStructFields(w io.Writer, s *types.Struct) {
 	for i := 0; i < s.NumFields(); i++ {
 		field, tag := s.Field(i), s.Tag(i)
-		fmt.Fprintf(w, "	%s `%s`\n", strings.Replace(field.String(), "field ", "", 1), tag)
+		fieldNameStr := field.String()
+		fieldNameStr = strings.Replace(fieldNameStr, "field ", "", 1)
+		fmt.Fprintf(w, "	%s `%s`\n", fieldNameStr, tag)
 	}
 }
 
@@ -474,7 +476,7 @@ func getMapstructureSquashedStruct(topPkg *types.Package, utStruct *types.Struct
 
 func flattenNamed(f *types.Named, underlying types.Type) *types.Named {
 	obj := f.Obj()
-	obj = types.NewTypeName(obj.Pos(), obj.Pkg(), obj.Name(), obj.Type())
+	obj = types.NewTypeName(obj.Pos(), obj.Pkg(), "Flat"+obj.Name(), obj.Type())
 	return types.NewNamed(obj, underlying, nil)
 }
 

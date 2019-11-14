@@ -77,7 +77,7 @@ type Provisioner struct {
 	playbookFiles []string
 }
  
-func (p *Provisioner) ConfigSpec() hcldec.ObjectSpec { return p.config.HCL2Spec() }
+func (p *Provisioner) ConfigSpec() hcldec.ObjectSpec { return p.config.FlatMapstructure().HCL2Spec() }
 
 func (p *Provisioner) Prepare(raws ...interface{}) error {
 	err := config.Decode(&p.config, &config.DecodeOpts{

@@ -96,7 +96,7 @@ func (p *Provisioner) defaultExecuteCommand() string {
 		return fmt.Sprintf(`powershell -executionpolicy %s "%s"`, p.config.ExecutionPolicy, baseCmd)
 	}
 }
-func (p *Provisioner) ConfigSpec() hcldec.ObjectSpec { return p.config.HCL2Spec() }
+func (p *Provisioner) ConfigSpec() hcldec.ObjectSpec { return p.config.FlatMapstructure().HCL2Spec() }
 
 func (p *Provisioner) Prepare(raws ...interface{}) error {
 	// Create passthrough for winrm password so we can fill it in once we know

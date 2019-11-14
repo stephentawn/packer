@@ -9,27 +9,28 @@ import (
 // FlatMockConfig is an auto-generated flat version of MockConfig.
 // Where the contents of a field with a `mapstructure:,squash` tag are bubbled up.
 type FlatMockConfig struct {
-	String          *string            `mapstructure:"string" cty:"string"`
-	Int             *int               `mapstructure:"int" cty:"int"`
-	Int64           *int64             `mapstructure:"int64" cty:"int64"`
-	Bool            *bool              `mapstructure:"bool" cty:"bool"`
-	Trilean         *bool              `mapstructure:"trilean" cty:"trilean"`
-	Duration        *string            `mapstructure:"duration" cty:"duration"`
-	MapStringString map[string]string  `mapstructure:"map_string_string" cty:"map_string_string"`
-	SliceString     []string           `mapstructure:"slice_string" cty:"slice_string"`
-	Nested          *NestedMockConfig  `mapstructure:"nested" cty:"nested"`
-	NestedSlice     []NestedMockConfig `mapstructure:"nested_slice" cty:"nested_slice"`
+	String          *string               `mapstructure:"string" cty:"string"`
+	Int             *int                  `mapstructure:"int" cty:"int"`
+	Int64           *int64                `mapstructure:"int64" cty:"int64"`
+	Bool            *bool                 `mapstructure:"bool" cty:"bool"`
+	Trilean         *bool                 `mapstructure:"trilean" cty:"trilean"`
+	Duration        *string               `mapstructure:"duration" cty:"duration"`
+	MapStringString map[string]string     `mapstructure:"map_string_string" cty:"map_string_string"`
+	SliceString     []string              `mapstructure:"slice_string" cty:"slice_string"`
+	Nested          *FlatNestedMockConfig `mapstructure:"nested" cty:"nested"`
 }
 
 // FlatMapstructure returns a new FlatMockConfig.
 // FlatMockConfig is an auto-generated flat version of MockConfig.
 // Where the contents a fields with a `mapstructure:,squash` tag are bubbled up.
-func (*MockConfig) FlatMapstructure() interface{} { return new(FlatMockConfig) }
+func (*MockConfig) FlatMapstructure() interface{ HCL2Spec() map[string]hcldec.Spec } {
+	return new(FlatMockConfig)
+}
 
 // HCL2Spec returns the hcl spec of a MockConfig.
 // This spec is used by HCL to read the fields of MockConfig.
 // The decoded values from this spec will then be applied to a FlatMockConfig.
-func (*MockConfig) HCL2Spec() map[string]hcldec.Spec {
+func (*FlatMockConfig) HCL2Spec() map[string]hcldec.Spec {
 	s := map[string]hcldec.Spec{
 		"string":            &hcldec.AttrSpec{Name: "string", Type: cty.String, Required: false},
 		"int":               &hcldec.AttrSpec{Name: "int", Type: cty.Number, Required: false},
@@ -39,8 +40,7 @@ func (*MockConfig) HCL2Spec() map[string]hcldec.Spec {
 		"duration":          &hcldec.AttrSpec{Name: "duration", Type: cty.String, Required: false},
 		"map_string_string": &hcldec.BlockAttrsSpec{TypeName: "map_string_string", ElementType: cty.String, Required: false},
 		"slice_string":      &hcldec.AttrSpec{Name: "slice_string", Type: cty.List(cty.String), Required: false},
-		"nested":            &hcldec.BlockSpec{TypeName: "nested", Nested: hcldec.ObjectSpec((*NestedMockConfig)(nil).HCL2Spec())},
-		"nested_slice":      &hcldec.BlockListSpec{TypeName: "nested_slice", Nested: &hcldec.BlockSpec{TypeName: "nested_slice", Nested: hcldec.ObjectSpec((*NestedMockConfig)(nil).HCL2Spec())}},
+		"nested":            &hcldec.BlockSpec{TypeName: "nested", Nested: hcldec.ObjectSpec((*FlatNestedMockConfig)(nil).HCL2Spec())},
 	}
 	return s
 }
@@ -61,12 +61,14 @@ type FlatNestedMockConfig struct {
 // FlatMapstructure returns a new FlatNestedMockConfig.
 // FlatNestedMockConfig is an auto-generated flat version of NestedMockConfig.
 // Where the contents a fields with a `mapstructure:,squash` tag are bubbled up.
-func (*NestedMockConfig) FlatMapstructure() interface{} { return new(FlatNestedMockConfig) }
+func (*NestedMockConfig) FlatMapstructure() interface{ HCL2Spec() map[string]hcldec.Spec } {
+	return new(FlatNestedMockConfig)
+}
 
 // HCL2Spec returns the hcl spec of a NestedMockConfig.
 // This spec is used by HCL to read the fields of NestedMockConfig.
 // The decoded values from this spec will then be applied to a FlatNestedMockConfig.
-func (*NestedMockConfig) HCL2Spec() map[string]hcldec.Spec {
+func (*FlatNestedMockConfig) HCL2Spec() map[string]hcldec.Spec {
 	s := map[string]hcldec.Spec{
 		"string":            &hcldec.AttrSpec{Name: "string", Type: cty.String, Required: false},
 		"int":               &hcldec.AttrSpec{Name: "int", Type: cty.Number, Required: false},

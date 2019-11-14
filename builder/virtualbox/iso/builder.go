@@ -131,7 +131,7 @@ type Config struct {
 	ctx interpolate.Context
 }
 
-func (b *Builder) ConfigSpec() hcldec.ObjectSpec { return b.config.HCL2Spec() }
+func (b *Builder) ConfigSpec() hcldec.ObjectSpec { return b.config.FlatMapstructure().HCL2Spec() }
 
 func (b *Builder) Prepare(raws ...interface{}) ([]string, error) {
 	err := config.Decode(&b.config, &config.DecodeOpts{

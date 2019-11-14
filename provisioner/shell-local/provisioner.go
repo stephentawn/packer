@@ -12,7 +12,7 @@ type Provisioner struct {
 	config sl.Config
 }
 
-func (p *Provisioner) ConfigSpec() hcldec.ObjectSpec { return p.config.HCL2Spec() }
+func (p *Provisioner) ConfigSpec() hcldec.ObjectSpec { return p.config.FlatMapstructure().HCL2Spec() }
 
 func (p *Provisioner) Prepare(raws ...interface{}) error {
 	err := sl.Decode(&p.config, raws...)

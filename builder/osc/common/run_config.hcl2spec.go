@@ -22,12 +22,14 @@ type FlatBlockDevice struct {
 // FlatMapstructure returns a new FlatBlockDevice.
 // FlatBlockDevice is an auto-generated flat version of BlockDevice.
 // Where the contents a fields with a `mapstructure:,squash` tag are bubbled up.
-func (*BlockDevice) FlatMapstructure() interface{} { return new(FlatBlockDevice) }
+func (*BlockDevice) FlatMapstructure() interface{ HCL2Spec() map[string]hcldec.Spec } {
+	return new(FlatBlockDevice)
+}
 
 // HCL2Spec returns the hcl spec of a BlockDevice.
 // This spec is used by HCL to read the fields of BlockDevice.
 // The decoded values from this spec will then be applied to a FlatBlockDevice.
-func (*BlockDevice) HCL2Spec() map[string]hcldec.Spec {
+func (*FlatBlockDevice) HCL2Spec() map[string]hcldec.Spec {
 	s := map[string]hcldec.Spec{
 		"delete_on_vm_deletion": &hcldec.AttrSpec{Name: "delete_on_vm_deletion", Type: cty.Bool, Required: false},
 		"device_name":           &hcldec.AttrSpec{Name: "device_name", Type: cty.String, Required: false},
@@ -50,12 +52,14 @@ type FlatNetFilterOptions struct {
 // FlatMapstructure returns a new FlatNetFilterOptions.
 // FlatNetFilterOptions is an auto-generated flat version of NetFilterOptions.
 // Where the contents a fields with a `mapstructure:,squash` tag are bubbled up.
-func (*NetFilterOptions) FlatMapstructure() interface{} { return new(FlatNetFilterOptions) }
+func (*NetFilterOptions) FlatMapstructure() interface{ HCL2Spec() map[string]hcldec.Spec } {
+	return new(FlatNetFilterOptions)
+}
 
 // HCL2Spec returns the hcl spec of a NetFilterOptions.
 // This spec is used by HCL to read the fields of NetFilterOptions.
 // The decoded values from this spec will then be applied to a FlatNetFilterOptions.
-func (*NetFilterOptions) HCL2Spec() map[string]hcldec.Spec {
+func (*FlatNetFilterOptions) HCL2Spec() map[string]hcldec.Spec {
 	s := map[string]hcldec.Spec{
 		"filters": &hcldec.BlockAttrsSpec{TypeName: "filters", ElementType: cty.String, Required: false},
 	}
@@ -73,12 +77,14 @@ type FlatOmiFilterOptions struct {
 // FlatMapstructure returns a new FlatOmiFilterOptions.
 // FlatOmiFilterOptions is an auto-generated flat version of OmiFilterOptions.
 // Where the contents a fields with a `mapstructure:,squash` tag are bubbled up.
-func (*OmiFilterOptions) FlatMapstructure() interface{} { return new(FlatOmiFilterOptions) }
+func (*OmiFilterOptions) FlatMapstructure() interface{ HCL2Spec() map[string]hcldec.Spec } {
+	return new(FlatOmiFilterOptions)
+}
 
 // HCL2Spec returns the hcl spec of a OmiFilterOptions.
 // This spec is used by HCL to read the fields of OmiFilterOptions.
 // The decoded values from this spec will then be applied to a FlatOmiFilterOptions.
-func (*OmiFilterOptions) HCL2Spec() map[string]hcldec.Spec {
+func (*FlatOmiFilterOptions) HCL2Spec() map[string]hcldec.Spec {
 	s := map[string]hcldec.Spec{
 		"filters":     &hcldec.BlockAttrsSpec{TypeName: "filters", ElementType: cty.String, Required: false},
 		"owners":      &hcldec.AttrSpec{Name: "owners", Type: cty.List(cty.String), Required: false},
@@ -96,14 +102,14 @@ type FlatSecurityGroupFilterOptions struct {
 // FlatMapstructure returns a new FlatSecurityGroupFilterOptions.
 // FlatSecurityGroupFilterOptions is an auto-generated flat version of SecurityGroupFilterOptions.
 // Where the contents a fields with a `mapstructure:,squash` tag are bubbled up.
-func (*SecurityGroupFilterOptions) FlatMapstructure() interface{} {
+func (*SecurityGroupFilterOptions) FlatMapstructure() interface{ HCL2Spec() map[string]hcldec.Spec } {
 	return new(FlatSecurityGroupFilterOptions)
 }
 
 // HCL2Spec returns the hcl spec of a SecurityGroupFilterOptions.
 // This spec is used by HCL to read the fields of SecurityGroupFilterOptions.
 // The decoded values from this spec will then be applied to a FlatSecurityGroupFilterOptions.
-func (*SecurityGroupFilterOptions) HCL2Spec() map[string]hcldec.Spec {
+func (*FlatSecurityGroupFilterOptions) HCL2Spec() map[string]hcldec.Spec {
 	s := map[string]hcldec.Spec{
 		"filters": &hcldec.BlockAttrsSpec{TypeName: "filters", ElementType: cty.String, Required: false},
 	}
@@ -121,12 +127,14 @@ type FlatSubnetFilterOptions struct {
 // FlatMapstructure returns a new FlatSubnetFilterOptions.
 // FlatSubnetFilterOptions is an auto-generated flat version of SubnetFilterOptions.
 // Where the contents a fields with a `mapstructure:,squash` tag are bubbled up.
-func (*SubnetFilterOptions) FlatMapstructure() interface{} { return new(FlatSubnetFilterOptions) }
+func (*SubnetFilterOptions) FlatMapstructure() interface{ HCL2Spec() map[string]hcldec.Spec } {
+	return new(FlatSubnetFilterOptions)
+}
 
 // HCL2Spec returns the hcl spec of a SubnetFilterOptions.
 // This spec is used by HCL to read the fields of SubnetFilterOptions.
 // The decoded values from this spec will then be applied to a FlatSubnetFilterOptions.
-func (*SubnetFilterOptions) HCL2Spec() map[string]hcldec.Spec {
+func (*FlatSubnetFilterOptions) HCL2Spec() map[string]hcldec.Spec {
 	s := map[string]hcldec.Spec{
 		"filters":   &hcldec.BlockAttrsSpec{TypeName: "filters", ElementType: cty.String, Required: false},
 		"most_free": &hcldec.AttrSpec{Name: "most_free", Type: cty.Bool, Required: false},

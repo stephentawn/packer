@@ -126,10 +126,10 @@ var (
 	basicMockBuilder = &MockBuilder{
 		Config: MockConfig{
 			NestedMockConfig: basicNestedMockConfig,
-			// Nested:           basicNestedMockConfig,
-			NestedSlice: []NestedMockConfig{
-				// 	basicNestedMockConfig,
-			},
+			Nested:           basicNestedMockConfig,
+			// NestedSlice: []NestedMockConfig{
+			// 	// 	basicNestedMockConfig,
+			// },
 		},
 	}
 )

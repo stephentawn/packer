@@ -124,7 +124,7 @@ type KnifeTemplate struct {
 	Args  string
 }
 
-func (p *Provisioner) ConfigSpec() hcldec.ObjectSpec { return p.config.HCL2Spec() }
+func (p *Provisioner) ConfigSpec() hcldec.ObjectSpec { return p.config.FlatMapstructure().HCL2Spec() }
 
 func (p *Provisioner) Prepare(raws ...interface{}) error {
 	// Create passthrough for winrm password so we can fill it in once we know

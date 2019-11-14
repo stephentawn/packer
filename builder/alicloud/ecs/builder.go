@@ -42,7 +42,7 @@ const (
 	ALICLOUD_DEFAULT_LONG_TIMEOUT  = 3600
 )
 
-func (b *Builder) ConfigSpec() hcldec.ObjectSpec { return b.config.HCL2Spec() }
+func (b *Builder) ConfigSpec() hcldec.ObjectSpec { return b.config.FlatMapstructure().HCL2Spec() }
 
 func (b *Builder) Prepare(raws ...interface{}) ([]string, error) {
 	err := config.Decode(&b.config, &config.DecodeOpts{

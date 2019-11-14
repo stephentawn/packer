@@ -21,7 +21,7 @@ type Builder struct {
 	ui     packer.Ui
 }
 
-func (b *Builder) ConfigSpec() hcldec.ObjectSpec { return b.config.HCL2Spec() }
+func (b *Builder) ConfigSpec() hcldec.ObjectSpec { return b.config.FlatMapstructure().HCL2Spec() }
 
 func (b *Builder) Prepare(raws ...interface{}) ([]string, error) {
 	config, errs := NewConfig(raws...)

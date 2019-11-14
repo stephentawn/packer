@@ -21,12 +21,14 @@ type FlatConfig struct {
 // FlatMapstructure returns a new FlatConfig.
 // FlatConfig is an auto-generated flat version of Config.
 // Where the contents a fields with a `mapstructure:,squash` tag are bubbled up.
-func (*Config) FlatMapstructure() interface{} { return new(FlatConfig) }
+func (*Config) FlatMapstructure() interface{ HCL2Spec() map[string]hcldec.Spec } {
+	return new(FlatConfig)
+}
 
 // HCL2Spec returns the hcl spec of a Config.
 // This spec is used by HCL to read the fields of Config.
 // The decoded values from this spec will then be applied to a FlatConfig.
-func (*Config) HCL2Spec() map[string]hcldec.Spec {
+func (*FlatConfig) HCL2Spec() map[string]hcldec.Spec {
 	s := map[string]hcldec.Spec{
 		"host":     &hcldec.AttrSpec{Name: "host", Type: cty.String, Required: false},
 		"port":     &hcldec.AttrSpec{Name: "port", Type: cty.Number, Required: false},

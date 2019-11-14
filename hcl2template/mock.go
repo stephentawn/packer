@@ -24,8 +24,8 @@ type NestedMockConfig struct {
 
 type MockConfig struct {
 	NestedMockConfig `mapstructure:",squash"`
-	Nested           NestedMockConfig   `mapstructure:"nested"`
-	NestedSlice      []NestedMockConfig `mapstructure:"nested_slice"`
+	Nested           NestedMockConfig `mapstructure:"nested"`
+	// NestedSlice      []NestedMockConfig `mapstructure:"nested_slice"`
 }
 
 //////
@@ -38,7 +38,7 @@ type MockBuilder struct {
 
 var _ packer.Builder = new(MockBuilder)
 
-func (b *MockBuilder) ConfigSpec() hcldec.ObjectSpec { return b.Config.HCL2Spec() }
+func (b *MockBuilder) ConfigSpec() hcldec.ObjectSpec { return b.Config.FlatMapstructure().HCL2Spec() }
 
 func (b *MockBuilder) Prepare(raws ...interface{}) ([]string, error) {
 	err := config.Decode(&b.Config, &config.DecodeOpts{
@@ -64,7 +64,9 @@ type MockProvisioner struct {
 
 var _ packer.Provisioner = new(MockProvisioner)
 
-func (b *MockProvisioner) ConfigSpec() hcldec.ObjectSpec { return b.config.HCL2Spec() }
+func (b *MockProvisioner) ConfigSpec() hcldec.ObjectSpec {
+	return b.config.Nested.FlatMapstructure().HCL2Spec()
+}
 
 func (b *MockProvisioner) Prepare(raws ...interface{}) error {
 	return nil

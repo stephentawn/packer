@@ -282,7 +282,7 @@ import (
 )
 {{ range .StructDefs }}
 {{ $StructName := .StructName}}
-func (*{{ .StructName }}) HCL2Spec() map[string]hcldec.Spec {
+func (*{{ .StructName }}) HCL2Spec() hcldec.Spec {
 	s := map[string]hcldec.Spec{
 		{{- range .Fields}}
 		"{{ .Name }}": {{ .Spec }},

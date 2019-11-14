@@ -18,7 +18,7 @@ type MockProvisioner struct {
 	ProvUi           Ui
 }
 
-func (tp *MockProvisioner) ConfigSpec() hcldec.ObjectSpec { return tp.HCL2Spec() }
+func (tp *MockProvisioner) ConfigSpec() hcldec.ObjectSpec { return tp.FlatMapstructure().HCL2Spec() }
 
 func (tp *MockProvisioner) FlatConfig() interface{} { return tp.FlatMapstructure() }
 

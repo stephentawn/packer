@@ -3,6 +3,7 @@ package config
 import (
 	"encoding/json"
 	"fmt"
+	"github.com/hashicorp/hcl/v2/hcldec"
 	"reflect"
 	"sort"
 	"strings"
@@ -49,18 +50,24 @@ func Decode(target interface{}, config *DecodeOpts, raws ...interface{}) error {
 			continue
 		}
 		type flatConfigurer interface {
-			FlatMapstructure() interface{}
+			FlatMapstructure() interface{ HCL2Spec() map[string]hcldec.Spec }
 		}
 		ctarget := target.(flatConfigurer)
 		flatCfg := ctarget.FlatMapstructure()
 		err := gocty.FromCtyValue(cval, flatCfg)
 		if err != nil {
+			switch err := err.(type) {
+			case cty.PathError:
+				return fmt.Errorf("%v: %v", err, err.Path)
+			}
 			return err
 		}
 		b, err := ctyjson.SimpleJSONValue{cval}.MarshalJSON()
 		if err != nil {
 			return err
 		}
+		s := string(b)
+		_ = s
 		var raw map[string]interface{}
 		if err := json.Unmarshal(b, &raw); err != nil {
 			return err

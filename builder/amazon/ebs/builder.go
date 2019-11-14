@@ -63,7 +63,7 @@ type Builder struct {
 	runner multistep.Runner
 }
 
-func (b *Builder) ConfigSpec() hcldec.ObjectSpec { return b.config.HCL2Spec() }
+func (b *Builder) ConfigSpec() hcldec.ObjectSpec { return b.config.FlatMapstructure().HCL2Spec() }
 
 func (b *Builder) Prepare(raws ...interface{}) ([]string, error) {
 	b.config.ctx.Funcs = awscommon.TemplateFuncs

@@ -27,7 +27,7 @@ type MockBuilder struct {
 	RunFn         func(ctx context.Context)
 }
 
-func (tb *MockBuilder) ConfigSpec() hcldec.ObjectSpec { return tb.HCL2Spec() }
+func (tb *MockBuilder) ConfigSpec() hcldec.ObjectSpec { return tb.FlatMapstructure().HCL2Spec() }
 
 func (tb *MockBuilder) FlatConfig() interface{} { return tb.FlatMapstructure() }
 

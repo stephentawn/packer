@@ -25,12 +25,14 @@ type FlatMockBuilder struct {
 // FlatMapstructure returns a new FlatMockBuilder.
 // FlatMockBuilder is an auto-generated flat version of MockBuilder.
 // Where the contents a fields with a `mapstructure:,squash` tag are bubbled up.
-func (*MockBuilder) FlatMapstructure() interface{} { return new(FlatMockBuilder) }
+func (*MockBuilder) FlatMapstructure() interface{ HCL2Spec() map[string]hcldec.Spec } {
+	return new(FlatMockBuilder)
+}
 
 // HCL2Spec returns the hcl spec of a MockBuilder.
 // This spec is used by HCL to read the fields of MockBuilder.
 // The decoded values from this spec will then be applied to a FlatMockBuilder.
-func (*MockBuilder) HCL2Spec() map[string]hcldec.Spec {
+func (*FlatMockBuilder) HCL2Spec() map[string]hcldec.Spec {
 	s := map[string]hcldec.Spec{
 		"artifact_id":      &hcldec.AttrSpec{Name: "artifact_id", Type: cty.String, Required: false},
 		"prepare_warnings": &hcldec.AttrSpec{Name: "prepare_warnings", Type: cty.List(cty.String), Required: false},
@@ -49,38 +51,40 @@ func (*MockBuilder) HCL2Spec() map[string]hcldec.Spec {
 // FlatMockCommunicator is an auto-generated flat version of MockCommunicator.
 // Where the contents of a field with a `mapstructure:,squash` tag are bubbled up.
 type FlatMockCommunicator struct {
-	StartCalled        *bool      `cty:"start_called"`
-	StartCmd           *RemoteCmd `cty:"start_cmd"`
-	StartStderr        *string    `cty:"start_stderr"`
-	StartStdout        *string    `cty:"start_stdout"`
-	StartStdin         *string    `cty:"start_stdin"`
-	StartExitStatus    *int       `cty:"start_exit_status"`
-	UploadCalled       *bool      `cty:"upload_called"`
-	UploadPath         *string    `cty:"upload_path"`
-	UploadData         *string    `cty:"upload_data"`
-	UploadDirDst       *string    `cty:"upload_dir_dst"`
-	UploadDirSrc       *string    `cty:"upload_dir_src"`
-	UploadDirExclude   []string   `cty:"upload_dir_exclude"`
-	DownloadDirDst     *string    `cty:"download_dir_dst"`
-	DownloadDirSrc     *string    `cty:"download_dir_src"`
-	DownloadDirExclude []string   `cty:"download_dir_exclude"`
-	DownloadCalled     *bool      `cty:"download_called"`
-	DownloadPath       *string    `cty:"download_path"`
-	DownloadData       *string    `cty:"download_data"`
+	StartCalled        *bool          `cty:"start_called"`
+	StartCmd           *FlatRemoteCmd `cty:"start_cmd"`
+	StartStderr        *string        `cty:"start_stderr"`
+	StartStdout        *string        `cty:"start_stdout"`
+	StartStdin         *string        `cty:"start_stdin"`
+	StartExitStatus    *int           `cty:"start_exit_status"`
+	UploadCalled       *bool          `cty:"upload_called"`
+	UploadPath         *string        `cty:"upload_path"`
+	UploadData         *string        `cty:"upload_data"`
+	UploadDirDst       *string        `cty:"upload_dir_dst"`
+	UploadDirSrc       *string        `cty:"upload_dir_src"`
+	UploadDirExclude   []string       `cty:"upload_dir_exclude"`
+	DownloadDirDst     *string        `cty:"download_dir_dst"`
+	DownloadDirSrc     *string        `cty:"download_dir_src"`
+	DownloadDirExclude []string       `cty:"download_dir_exclude"`
+	DownloadCalled     *bool          `cty:"download_called"`
+	DownloadPath       *string        `cty:"download_path"`
+	DownloadData       *string        `cty:"download_data"`
 }
 
 // FlatMapstructure returns a new FlatMockCommunicator.
 // FlatMockCommunicator is an auto-generated flat version of MockCommunicator.
 // Where the contents a fields with a `mapstructure:,squash` tag are bubbled up.
-func (*MockCommunicator) FlatMapstructure() interface{} { return new(FlatMockCommunicator) }
+func (*MockCommunicator) FlatMapstructure() interface{ HCL2Spec() map[string]hcldec.Spec } {
+	return new(FlatMockCommunicator)
+}
 
 // HCL2Spec returns the hcl spec of a MockCommunicator.
 // This spec is used by HCL to read the fields of MockCommunicator.
 // The decoded values from this spec will then be applied to a FlatMockCommunicator.
-func (*MockCommunicator) HCL2Spec() map[string]hcldec.Spec {
+func (*FlatMockCommunicator) HCL2Spec() map[string]hcldec.Spec {
 	s := map[string]hcldec.Spec{
 		"start_called":         &hcldec.AttrSpec{Name: "start_called", Type: cty.Bool, Required: false},
-		"start_cmd":            &hcldec.BlockSpec{TypeName: "start_cmd", Nested: hcldec.ObjectSpec((*RemoteCmd)(nil).HCL2Spec())},
+		"start_cmd":            &hcldec.BlockSpec{TypeName: "start_cmd", Nested: hcldec.ObjectSpec((*FlatRemoteCmd)(nil).HCL2Spec())},
 		"start_stderr":         &hcldec.AttrSpec{Name: "start_stderr", Type: cty.String, Required: false},
 		"start_stdout":         &hcldec.AttrSpec{Name: "start_stdout", Type: cty.String, Required: false},
 		"start_stdin":          &hcldec.AttrSpec{Name: "start_stdin", Type: cty.String, Required: false},
@@ -114,12 +118,14 @@ type FlatMockProvisioner struct {
 // FlatMapstructure returns a new FlatMockProvisioner.
 // FlatMockProvisioner is an auto-generated flat version of MockProvisioner.
 // Where the contents a fields with a `mapstructure:,squash` tag are bubbled up.
-func (*MockProvisioner) FlatMapstructure() interface{} { return new(FlatMockProvisioner) }
+func (*MockProvisioner) FlatMapstructure() interface{ HCL2Spec() map[string]hcldec.Spec } {
+	return new(FlatMockProvisioner)
+}
 
 // HCL2Spec returns the hcl spec of a MockProvisioner.
 // This spec is used by HCL to read the fields of MockProvisioner.
 // The decoded values from this spec will then be applied to a FlatMockProvisioner.
-func (*MockProvisioner) HCL2Spec() map[string]hcldec.Spec {
+func (*FlatMockProvisioner) HCL2Spec() map[string]hcldec.Spec {
 	s := map[string]hcldec.Spec{
 		"prep_called":       &hcldec.AttrSpec{Name: "prep_called", Type: cty.Bool, Required: false},
 		"prep_configs":      &hcldec.AttrSpec{Name: "prep_configs", Type: cty.Bool, Required: false}, /* TODO(azr): could not find type */
@@ -142,12 +148,14 @@ type FlatRemoteCmd struct {
 // FlatMapstructure returns a new FlatRemoteCmd.
 // FlatRemoteCmd is an auto-generated flat version of RemoteCmd.
 // Where the contents a fields with a `mapstructure:,squash` tag are bubbled up.
-func (*RemoteCmd) FlatMapstructure() interface{} { return new(FlatRemoteCmd) }
+func (*RemoteCmd) FlatMapstructure() interface{ HCL2Spec() map[string]hcldec.Spec } {
+	return new(FlatRemoteCmd)
+}
 
 // HCL2Spec returns the hcl spec of a RemoteCmd.
 // This spec is used by HCL to read the fields of RemoteCmd.
 // The decoded values from this spec will then be applied to a FlatRemoteCmd.
-func (*RemoteCmd) HCL2Spec() map[string]hcldec.Spec {
+func (*FlatRemoteCmd) HCL2Spec() map[string]hcldec.Spec {
 	s := map[string]hcldec.Spec{
 		"command": &hcldec.AttrSpec{Name: "command", Type: cty.String, Required: false},
 		"stdin":   &hcldec.AttrSpec{Name: "io.Reader", Type: cty.Bool, Required: false}, /* TODO(azr): could not find type */

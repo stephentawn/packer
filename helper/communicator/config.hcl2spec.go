@@ -54,12 +54,14 @@ type FlatConfig struct {
 // FlatMapstructure returns a new FlatConfig.
 // FlatConfig is an auto-generated flat version of Config.
 // Where the contents a fields with a `mapstructure:,squash` tag are bubbled up.
-func (*Config) FlatMapstructure() interface{} { return new(FlatConfig) }
+func (*Config) FlatMapstructure() interface{ HCL2Spec() map[string]hcldec.Spec } {
+	return new(FlatConfig)
+}
 
 // HCL2Spec returns the hcl spec of a Config.
 // This spec is used by HCL to read the fields of Config.
 // The decoded values from this spec will then be applied to a FlatConfig.
-func (*Config) HCL2Spec() map[string]hcldec.Spec {
+func (*FlatConfig) HCL2Spec() map[string]hcldec.Spec {
 	s := map[string]hcldec.Spec{
 		"communicator":                 &hcldec.AttrSpec{Name: "communicator", Type: cty.String, Required: false},
 		"pause_before_connecting":      &hcldec.AttrSpec{Name: "pause_before_connecting", Type: cty.String, Required: false},
@@ -143,12 +145,12 @@ type FlatSSH struct {
 // FlatMapstructure returns a new FlatSSH.
 // FlatSSH is an auto-generated flat version of SSH.
 // Where the contents a fields with a `mapstructure:,squash` tag are bubbled up.
-func (*SSH) FlatMapstructure() interface{} { return new(FlatSSH) }
+func (*SSH) FlatMapstructure() interface{ HCL2Spec() map[string]hcldec.Spec } { return new(FlatSSH) }
 
 // HCL2Spec returns the hcl spec of a SSH.
 // This spec is used by HCL to read the fields of SSH.
 // The decoded values from this spec will then be applied to a FlatSSH.
-func (*SSH) HCL2Spec() map[string]hcldec.Spec {
+func (*FlatSSH) HCL2Spec() map[string]hcldec.Spec {
 	s := map[string]hcldec.Spec{
 		"ssh_host":                     &hcldec.AttrSpec{Name: "ssh_host", Type: cty.String, Required: false},
 		"ssh_port":                     &hcldec.AttrSpec{Name: "ssh_port", Type: cty.Number, Required: false},
@@ -200,12 +202,12 @@ type FlatWinRM struct {
 // FlatMapstructure returns a new FlatWinRM.
 // FlatWinRM is an auto-generated flat version of WinRM.
 // Where the contents a fields with a `mapstructure:,squash` tag are bubbled up.
-func (*WinRM) FlatMapstructure() interface{} { return new(FlatWinRM) }
+func (*WinRM) FlatMapstructure() interface{ HCL2Spec() map[string]hcldec.Spec } { return new(FlatWinRM) }
 
 // HCL2Spec returns the hcl spec of a WinRM.
 // This spec is used by HCL to read the fields of WinRM.
 // The decoded values from this spec will then be applied to a FlatWinRM.
-func (*WinRM) HCL2Spec() map[string]hcldec.Spec {
+func (*FlatWinRM) HCL2Spec() map[string]hcldec.Spec {
 	s := map[string]hcldec.Spec{
 		"winrm_username": &hcldec.AttrSpec{Name: "winrm_username", Type: cty.String, Required: false},
 		"winrm_password": &hcldec.AttrSpec{Name: "winrm_password", Type: cty.String, Required: false},

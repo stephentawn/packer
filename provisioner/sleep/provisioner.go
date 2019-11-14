@@ -17,7 +17,7 @@ type Provisioner struct {
 
 var _ packer.Provisioner = new(Provisioner)
 
-func (p *Provisioner) ConfigSpec() hcldec.ObjectSpec { return p.HCL2Spec() }
+func (p *Provisioner) ConfigSpec() hcldec.ObjectSpec { return p.FlatMapstructure().HCL2Spec() }
 
 func (p *Provisioner) FlatConfig() interface{} { return p.FlatMapstructure() }
 
