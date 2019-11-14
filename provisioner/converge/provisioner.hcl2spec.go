@@ -51,7 +51,7 @@ func (*FlatConfig) HCL2Spec() map[string]hcldec.Spec {
 		"version":                    &hcldec.AttrSpec{Name: "version", Type: cty.String, Required: false},
 		"bootstrap_command":          &hcldec.AttrSpec{Name: "bootstrap_command", Type: cty.String, Required: false},
 		"prevent_bootstrap_sudo":     &hcldec.AttrSpec{Name: "prevent_bootstrap_sudo", Type: cty.Bool, Required: false},
-		"module_dirs":                &hcldec.BlockListSpec{TypeName: "module_dirs", Nested: &hcldec.BlockSpec{TypeName: "module_dirs", Nested: hcldec.ObjectSpec((*FlatModuleDir)(nil).HCL2Spec())}},
+		"module_dirs":                &hcldec.BlockListSpec{TypeName: "module_dirs", Nested: hcldec.ObjectSpec((*FlatModuleDir)(nil).HCL2Spec())},
 		"module":                     &hcldec.AttrSpec{Name: "module", Type: cty.String, Required: false},
 		"working_directory":          &hcldec.AttrSpec{Name: "working_directory", Type: cty.String, Required: false},
 		"params":                     &hcldec.BlockAttrsSpec{TypeName: "params", ElementType: cty.String, Required: false},

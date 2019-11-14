@@ -147,7 +147,7 @@ func (*FlatConfig) HCL2Spec() map[string]hcldec.Spec {
 		"image_ignore_data_disks":      &hcldec.AttrSpec{Name: "image_ignore_data_disks", Type: cty.Bool, Required: false},
 		"tags":                         &hcldec.BlockAttrsSpec{TypeName: "tags", ElementType: cty.String, Required: false},
 		"system_disk_mapping":          &hcldec.BlockSpec{TypeName: "system_disk_mapping", Nested: hcldec.ObjectSpec((*ecs.FlatAlicloudDiskDevice)(nil).HCL2Spec())},
-		"image_disk_mappings":          &hcldec.BlockListSpec{TypeName: "image_disk_mappings", Nested: &hcldec.BlockSpec{TypeName: "image_disk_mappings", Nested: hcldec.ObjectSpec((*ecs.FlatAlicloudDiskDevice)(nil).HCL2Spec())}},
+		"image_disk_mappings":          &hcldec.BlockListSpec{TypeName: "image_disk_mappings", Nested: hcldec.ObjectSpec((*ecs.FlatAlicloudDiskDevice)(nil).HCL2Spec())},
 		"associate_public_ip_address":  &hcldec.AttrSpec{Name: "associate_public_ip_address", Type: cty.Bool, Required: false},
 		"zone_id":                      &hcldec.AttrSpec{Name: "zone_id", Type: cty.String, Required: false},
 		"io_optimized":                 &hcldec.AttrSpec{Name: "io_optimized", Type: cty.Bool, Required: false},

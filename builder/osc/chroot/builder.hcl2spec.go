@@ -79,7 +79,7 @@ func (*FlatConfig) HCL2Spec() map[string]hcldec.Spec {
 		"packer_on_error":            &hcldec.AttrSpec{Name: "packer_on_error", Type: cty.String, Required: false},
 		"packer_user_variables":      &hcldec.BlockAttrsSpec{TypeName: "packer_user_variables", ElementType: cty.String, Required: false},
 		"packer_sensitive_variables": &hcldec.AttrSpec{Name: "packer_sensitive_variables", Type: cty.List(cty.String), Required: false},
-		"omi_block_device_mappings":  &hcldec.BlockListSpec{TypeName: "omi_block_device_mappings", Nested: &hcldec.BlockSpec{TypeName: "omi_block_device_mappings", Nested: hcldec.ObjectSpec((*common.FlatBlockDevice)(nil).HCL2Spec())}},
+		"omi_block_device_mappings":  &hcldec.BlockListSpec{TypeName: "omi_block_device_mappings", Nested: hcldec.ObjectSpec((*common.FlatBlockDevice)(nil).HCL2Spec())},
 		"omi_name":                   &hcldec.AttrSpec{Name: "omi_name", Type: cty.String, Required: false},
 		"omi_description":            &hcldec.AttrSpec{Name: "omi_description", Type: cty.String, Required: false},
 		"omi_virtualization_type":    &hcldec.AttrSpec{Name: "omi_virtualization_type", Type: cty.String, Required: false},

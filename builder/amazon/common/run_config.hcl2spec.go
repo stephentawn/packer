@@ -53,7 +53,7 @@ func (*PolicyDocument) FlatMapstructure() interface{ HCL2Spec() map[string]hclde
 func (*FlatPolicyDocument) HCL2Spec() map[string]hcldec.Spec {
 	s := map[string]hcldec.Spec{
 		"version":   &hcldec.AttrSpec{Name: "version", Type: cty.String, Required: false},
-		"statement": &hcldec.BlockListSpec{TypeName: "statement", Nested: &hcldec.BlockSpec{TypeName: "statement", Nested: hcldec.ObjectSpec((*FlatStatement)(nil).HCL2Spec())}},
+		"statement": &hcldec.BlockListSpec{TypeName: "statement", Nested: hcldec.ObjectSpec((*FlatStatement)(nil).HCL2Spec())},
 	}
 	return s
 }

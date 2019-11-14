@@ -251,7 +251,13 @@ func outputHCL2SpecField(w io.Writer, accessor string, fieldType types.Type, tag
 			})
 		case *types.Named:
 			b := bytes.NewBuffer(nil)
-			outputHCL2SpecField(b, accessor, elem, tag)
+			underlyingType := elem.Underlying()
+			switch underlyingType.(type) {
+			case *types.Struct:
+				fmt.Fprintf(b, `hcldec.ObjectSpec((*%s)(nil).HCL2Spec())`, elem.String())
+			default:
+				outputHCL2SpecField(b, accessor, elem, tag)
+			}
 			fmt.Fprintf(w, `&hcldec.BlockListSpec{TypeName: "%s", Nested: %s}`, accessor, b.String())
 		case *types.Slice:
 			b := bytes.NewBuffer(nil)
@@ -269,9 +275,6 @@ func outputHCL2SpecField(w io.Writer, accessor string, fieldType types.Type, tag
 		default:
 			outputHCL2SpecField(w, f.String(), underlyingType, tag)
 		}
-	case *types.Struct:
-		fmt.Fprintf(w, `&hcldec.BlockObjectSpec{TypeName: "%s",`+
-			` Nested: hcldec.ObjectSpec((*%s)(nil).HCL2Spec())}`, accessor, fieldType.String())
 	default:
 		fmt.Fprintf(w, `%#v`, &hcldec.AttrSpec{
 			Name:     accessor,

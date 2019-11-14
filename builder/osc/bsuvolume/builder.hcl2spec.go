@@ -232,7 +232,7 @@ func (*FlatConfig) HCL2Spec() map[string]hcldec.Spec {
 		"winrm_insecure":                       &hcldec.AttrSpec{Name: "winrm_insecure", Type: cty.Bool, Required: false},
 		"winrm_use_ntlm":                       &hcldec.AttrSpec{Name: "winrm_use_ntlm", Type: cty.Bool, Required: false},
 		"ssh_interface":                        &hcldec.AttrSpec{Name: "ssh_interface", Type: cty.String, Required: false},
-		"bsu_volumes":                          &hcldec.BlockListSpec{TypeName: "bsu_volumes", Nested: &hcldec.BlockSpec{TypeName: "bsu_volumes", Nested: hcldec.ObjectSpec((*FlatBlockDevice)(nil).HCL2Spec())}},
+		"bsu_volumes":                          &hcldec.BlockListSpec{TypeName: "bsu_volumes", Nested: hcldec.ObjectSpec((*FlatBlockDevice)(nil).HCL2Spec())},
 	}
 	return s
 }
